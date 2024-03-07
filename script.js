@@ -10,7 +10,7 @@ window.addEventListener('scroll', function () {
 
 var genres = {};
 
-var defaultpage = "111";   
+var defaultpage = "1";   
 
 fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=e6e82b1d384c0712afd3d57364994f60')
     .then(response => response.json())
