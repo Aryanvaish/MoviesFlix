@@ -10,7 +10,7 @@ window.addEventListener('scroll', function () {
 
 var genres = {};
 
-var defaultpage = "1";   
+var defaultpage = "111";   
 
 fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=e6e82b1d384c0712afd3d57364994f60')
     .then(response => response.json())
@@ -66,11 +66,17 @@ function Create(){
               <h3 class="genre">${genretags}</h3>
             </li>`
 
-  
         }
+        
+        const moviePoster = document.querySelectorAll('.poster');
+        for (let j = 0; j < moviePoster.length; j++) {
+            moviePoster[j].addEventListener('error', function(){
+                console.log(moviePoster[j]);
+                moviePoster[j].setAttribute("src", "images/error.jpg");   
+            }) ;                
+        } 
     })
 }Create();
-
 
 
 const prevPage = document.querySelector('.prevPage');

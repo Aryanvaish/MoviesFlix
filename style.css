@@ -212,11 +212,11 @@ svg {
 
 
 .pages strong{
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     color: #fff;
     font-size: 15px;
-    line-height: 32px;
+    line-height: 36px;
     font-weight: 500;
     background-color: #333e4d;
     padding: 0 1px 0 0;
@@ -232,9 +232,9 @@ svg {
 .contWrap ul{
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-wrap: wrap;
-    gap: 10px 25px;
+    gap: 10px 0;
 }
 
 .contWrap ul li{
@@ -272,9 +272,10 @@ svg {
 
 .contWrap ul li img{
     width: 100%;
-    min-height: 175px;
+    min-height: 250px;
+    max-height: 250px;
     object-fit: cover;
-    border: solid 1px #333e4d;
+    border-bottom: solid 1px #273446;
     border-radius: 10px 10px 0 0;
 }
 
