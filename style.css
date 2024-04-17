@@ -322,3 +322,39 @@ svg {
 }
 
 
+@media(max-width:800px){
+    svg {
+        width: 15px;
+    }
+
+    .nav_Container{
+        padding: 10px 20px 10px 20px;
+    }
+
+    .contWrap h2 {
+        font-size: 1.2em;
+    }
+
+    #mainWrap{
+        padding: 70px 15px;
+    }
+
+    .searchInp{
+        display: none;
+    }
+
+    .titlePage{
+        margin-bottom: 15px;
+    }
+
+    .contWrap ul li{
+        max-width: 48%;
+    }
+
+    .pages strong {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+        line-height: 28px;
+    }
+}
