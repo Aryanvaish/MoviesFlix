@@ -1,5 +1,5 @@
 window.addEventListener("scroll", function () {
-    const navbar = document.querySelector(".nav_Container");
+    const navbar = document.querySelector("#navBar");
     if (window.scrollY > 40) {
         navbar.classList.add("fixed");
     } else {
@@ -10,13 +10,18 @@ window.addEventListener("scroll", function () {
 var genres = {};
 var defaultPage = 1;
 
-fetch("https://api.themoviedb.org/3/genre/movie/list?api_key=e6e82b1d384c0712afd3d57364994f60")
-    .then((response) => response.json())
-    .then((data) => {
-        for (let i = 0; i < data.genres.length; i++) {
-            genres[data.genres[i].id] = data.genres[i].name;
-        }
-    });
+function fetchGenreData(URL) {
+    fetch(URL)
+        .then((response) => response.json())
+        .then((data) => {
+            for (let i = 0; i < data.genres.length; i++) {
+                genres[data.genres[i].id] = data.genres[i].name;
+            }
+        });
+}
+
+fetchGenreData("https://api.themoviedb.org/3/genre/movie/list?api_key=e6e82b1d384c0712afd3d57364994f60");
+fetchGenreData("https://api.themoviedb.org/3/genre/tv/list?api_key=e6e82b1d384c0712afd3d57364994f60");
 
 
 function layoutRender(API_URL, parentDiv, secTitle) {
@@ -68,7 +73,7 @@ function Create(pageurl, parentDiv, page) {
 
             for (let i = 0; i < data.results.length; i++) {
                 let poster = data.results[i].poster_path;
-                let title = data.results[i].title || 'Title Not Found' ;
+                let title = data.results[i].title || data.results[i].name || 'Title Not Found' ;
                 let genreKey = data.results[i].genre_ids;
 
                 let release_date = null;
@@ -96,6 +101,11 @@ function Create(pageurl, parentDiv, page) {
                 }
 
 
+                if(ratingStat == 0){
+                    rating = "Upcoming";
+                }
+
+
                 listWrap.innerHTML += `   
                     <li>
                     <strong class="rating ${ratingBg}">${rating}</strong>  
@@ -119,4 +129,7 @@ function Create(pageurl, parentDiv, page) {
 
 layoutRender(`https://api.themoviedb.org/3/trending/all/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trending", "Trending");
 layoutRender(`https://api.themoviedb.org/3/trending/movie/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingMovie", "Trending Movie");
-layoutRender(`https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplisted", "Top Listed Movies");
+layoutRender(`https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedMovies", "Top Listed Movies");
+layoutRender(`https://api.themoviedb.org/3/trending/tv/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingTv", "Trending Series");
+layoutRender(`https://api.themoviedb.org/3/tv/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedSeries", "Top Listed Series");
+
