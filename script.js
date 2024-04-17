@@ -1,123 +1,122 @@
-window.addEventListener('scroll', function () {
+window.addEventListener("scroll", function () {
     const navbar = document.querySelector(".nav_Container");
     if (window.scrollY > 40) {
-        navbar.classList.add('fixed');
+        navbar.classList.add("fixed");
+    } else {
+        navbar.classList.remove("fixed");
     }
-    else {
-        navbar.classList.remove('fixed');
-    }
-})
+});
 
 var genres = {};
+var defaultPage = 1;
 
-var defaultpage = "1";   
-
-fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=e6e82b1d384c0712afd3d57364994f60')
-    .then(response => response.json())
-    .then(data => {
-
+fetch("https://api.themoviedb.org/3/genre/movie/list?api_key=e6e82b1d384c0712afd3d57364994f60")
+    .then((response) => response.json())
+    .then((data) => {
         for (let i = 0; i < data.genres.length; i++) {
             genres[data.genres[i].id] = data.genres[i].name;
         }
-
-});
-
-
-const trending = document.querySelector('.trending ul');
-
-function Create(){
-    fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=e6e82b1d384c0712afd3d57364994f60&page=${defaultpage}`)
-    .then(response => response.json())
-    .then(data => {
-
-        for (let i = 0; i < data.results.length; i++) {
-            let poster = data.results[i].poster_path;
-            let title = data.results[i].title;
-            let genreKey = data.results[i].genre_ids;
-            let release_date = data.results[i].release_date.substring(0, 4);
-            let rating = data.results[i].vote_average.toString().substring(0, 3);
-
-            var genretags = '';
-
-            for (let j = 0; j < genreKey.length; j++) {
-                genretags += `${genres[genreKey[j]]} `;
-                // console.log(genretags)
-            }
-            
-
-            const ratingStat = parseInt(rating);
-            var ratingBg = '';
-
-            if(ratingStat >= 8){
-                ratingBg = "green";
-            }else if(ratingStat == 7 || ratingStat == 6 || ratingStat == 5){
-                ratingBg = "yellow";
-            }else{
-                ratingBg = "red";
-            } 
+    });
 
 
+function layoutRender(API_URL, parentDiv, secTitle) {
+    const mainBox = document.querySelector(`.${parentDiv}`);
 
-            trending.innerHTML +=
-                `<li>
-              <strong class="rating ${ratingBg}">${rating}</strong>  
-              <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/${poster}" class="poster" alt="Poster">
-              <div class="mainTitle"><strong>${title}</strong><span>( ${release_date} )</span></div>
-              <h3 class="genre">${genretags}</h3>
-            </li>`
+    mainBox.innerHTML = `<div class="titlePage">
+                    <h2>${secTitle}</h2>
+                    <div class="pages">
+                    <svg width="18px" class="prevPage prev-${parentDiv}"  height="17px" viewBox="0 0 18 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <g id="prev" transform="translate(8.500000, 8.500000) scale(-1, 1) translate(-8.500000, -8.500000)"> <polygon class="arrow" points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"></polygon> <polygon class="arrow-fixed" points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"></polygon> <path d="M-1.48029737e-15,0.56157424 L-1.48029737e-15,16.1929159 L9.708,8.33860465 L-2.66453526e-15,0.56157424 L-1.48029737e-15,0.56157424 Z M1.33333333,3.30246869 L7.62533333,8.34246869 L1.33333333,13.4327013 L1.33333333,3.30246869 L1.33333333,3.30246869 Z"></path></g> </svg>
+                    <strong class="currPage curr-${parentDiv}">1</strong>
+                    <svg class="nextPage next-${parentDiv}" data-actionPage=" width="18px" height="17px" viewBox="-1 0 18 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><polygon class="arrow" points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"></polygon><polygon class="arrow-fixed" points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"></polygon><path d="M-4.58892184e-16,0.56157424 L-4.58892184e-16,16.1929159 L9.708,8.33860465 L-1.64313008e-15,0.56157424 L-4.58892184e-16,0.56157424 Z M1.33333333,3.30246869 L7.62533333,8.34246869 L1.33333333,13.4327013 L1.33333333,3.30246869 L1.33333333,3.30246869 Z"></path></g></svg>
+                    </div>
+                    </div>
+                    <ul></ul>
+    `;
 
+    Create(API_URL, parentDiv, 1);
+
+    const listWrap = document.querySelector(`.${parentDiv} ul`);
+    const currPage = document.querySelector(`.curr-${parentDiv}`);
+    const prevPage = document.querySelector(`.prev-${parentDiv}`);
+    const nextPage = document.querySelector(`.next-${parentDiv}`);
+
+    nextPage.addEventListener("click", function () {
+        if (currPage.textContent == 450) {
+            return
         }
-        
-        const moviePoster = document.querySelectorAll('.poster');
-        for (let j = 0; j < moviePoster.length; j++) {
-            moviePoster[j].addEventListener('error', function(){
-                console.log(moviePoster[j]);
-                moviePoster[j].setAttribute("src", "images/error.jpg");   
-            }) ;                
-        } 
-    })
-}Create();
+        listWrap.innerHTML = "";
+        currPage.textContent++;
+        Create(API_URL, parentDiv, currPage.textContent);
+    });
 
-
-const prevPage = document.querySelector('.prevPage');
-const nextPage = document.querySelector('.nextPage');
-const currPage = document.querySelector('.currPage');
-
-currPage.innerHTML = defaultpage;
-
-
-function currentPage(){
-    if(currPage.innerHTML == 1 ){
-        prevPage.style.pointerEvents = "none";
-    }else if(currPage.innerHTML >= 500){
-        prevPage.style.pointerEvents = "all";
-        nextPage.style.pointerEvents = "none";
-    }else{
-        prevPage.style.pointerEvents = "all";
-        nextPage.style.pointerEvents = "all";
-    }
-        
+    prevPage.addEventListener("click", function () {
+        if (currPage.textContent == 1) {
+            return
+        }
+        listWrap.innerHTML = "";
+        currPage.textContent--;
+        Create(API_URL, parentDiv, currPage.textContent);
+    });
 }
 
-currentPage();
+
+function Create(pageurl, parentDiv, page) {
+    fetch(`${pageurl}&page=${page}`)
+        .then((response) => response.json())
+        .then((data) => {
+            const listWrap = document.querySelector(`.${parentDiv} ul`);
+
+            for (let i = 0; i < data.results.length; i++) {
+                let poster = data.results[i].poster_path;
+                let title = data.results[i].title || 'Title Not Found' ;
+                let genreKey = data.results[i].genre_ids;
+
+                let release_date = null;
+                if (data.results[i].release_date) {
+                    release_date = data.results[i].release_date.substring(0, 4);
+                }
+
+                let rating = data.results[i].vote_average.toString().substring(0, 3);
+
+                var genretags = "";
+
+                for (let j = 0; j < genreKey.length; j++) {
+                    genretags += `${genres[genreKey[j]]} `;
+                }
+
+                const ratingStat = parseInt(rating);
+                var ratingBg = "";
+
+                if (ratingStat >= 8) {
+                    ratingBg = "green";
+                } else if (ratingStat == 7 || ratingStat == 6 || ratingStat == 5) {
+                    ratingBg = "yellow";
+                } else {
+                    ratingBg = "red";
+                }
 
 
-nextPage.addEventListener("click", function() {
-    trending.innerHTML = "";
-    currPage.textContent++;
-    defaultpage++;
-    Create();
-    currentPage();
-});
+                listWrap.innerHTML += `   
+                    <li>
+                    <strong class="rating ${ratingBg}">${rating}</strong>  
+                    <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/${poster}" class="poster" alt="Poster">
+                    <div class="mainTitle"><strong>${title}</strong><span>${release_date ? ( release_date ) : ''}</span></div>
+                    <h3 class="genre">${genretags}</h3>
+                    </li>
+            `;
+            }
 
+            const moviePoster = document.querySelectorAll(".poster");
+            for (let j = 0; j < moviePoster.length; j++) {
+                moviePoster[j].addEventListener("error", function () {
+                    moviePoster[j].setAttribute("src", "images/error.jpg");
+                });
+            }
 
-prevPage.addEventListener("click", function() {
-    trending.innerHTML = "";
-    currPage.textContent--;
-    defaultpage--;
-    Create();
-    currentPage();
-});
+        });
 
+}
 
-
+layoutRender(`https://api.themoviedb.org/3/trending/all/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trending", "Trending");
+layoutRender(`https://api.themoviedb.org/3/trending/movie/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingMovie", "Trending Movie");
+layoutRender(`https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplisted", "Top Listed Movies");
