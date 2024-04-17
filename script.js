@@ -110,7 +110,7 @@ function Create(pageurl, parentDiv, page) {
                     <li>
                     <strong class="rating ${ratingBg}">${rating}</strong>  
                     <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/${poster}" class="poster" alt="Poster">
-                    <div class="mainTitle"><strong>${title}</strong><span>${release_date ? ( release_date ) : ''}</span></div>
+                    <div class="mainTitle"><strong>${title}</strong><span>${release_date ? `(${release_date})` : ''}</span></div>
                     <h3 class="genre">${genretags}</h3>
                     </li>
             `;
