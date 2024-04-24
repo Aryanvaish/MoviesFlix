@@ -69,12 +69,21 @@ function Create(pageurl, parentDiv, page) {
     fetch(`${pageurl}&page=${page}`)
         .then((response) => response.json())
         .then((data) => {
-            const listWrap = document.querySelector(`.${parentDiv} ul`);
+            console.log(data);
 
+            const listWrap = document.querySelector(`.${parentDiv} ul`);
             for (let i = 0; i < data.results.length; i++) {
                 let poster = data.results[i].poster_path;
                 let title = data.results[i].title || data.results[i].name || 'Title Not Found' ;
                 let genreKey = data.results[i].genre_ids;
+                let adultScheme = data.results[i].adult;
+                let mediaType = data.results[i].media_type;
+                let overview = data.results[i].overview;
+                let releDate = data.results[i].release_date;
+                let voteRating = data.results[i].vote_average.toString().substring(0, 3);  
+                
+
+                
 
                 let release_date = null;
                 if (data.results[i].release_date) {
@@ -112,6 +121,13 @@ function Create(pageurl, parentDiv, page) {
                     <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/${poster}" class="poster" alt="Poster">
                     <div class="mainTitle"><strong>${title}</strong><span>${release_date ? `(${release_date})` : ''}</span></div>
                     <h3 class="genre">${genretags}</h3>
+                    <div class="hiddenInfo">
+                        <p class="adultScheme">${adultScheme}</p>
+                        <p class="mediaType">${mediaType}</p>
+                        <strong class="overview">${overview}</strong>  
+                        <h3 class="releDate">${releDate}</h3>
+                        <p class="voteRating">${voteRating} / 10</p>   
+                    </div>
                     </li>
             `;
             }

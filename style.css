@@ -2,13 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Anta&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
 
 
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     background-color: #0f172a;
     font-family: "Poppins", sans-serif;
     overflow-y: scroll;
@@ -18,20 +18,28 @@ body::-webkit-scrollbar {
     display: none;
 }
 
-img{
+img {
     width: 100%;
 }
 
-.green{
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.green {
     background-color: green;
 }
 
-.yellow{
-    background-color:#beca1a;
+.yellow {
+    background-color: #beca1a;
 }
 
-.red{
-    background-color:red;
+.red {
+    background-color: red;
 }
 
 svg {
@@ -40,51 +48,60 @@ svg {
     margin: 0;
     cursor: pointer;
     overflow: visible;
-    polygon, path {
-      transition: all 0.5s cubic-bezier(.2,1,.3,1);
-      fill: #ddd;
+
+    polygon,
+    path {
+        transition: all 0.5s cubic-bezier(.2, 1, .3, 1);
+        fill: #ddd;
     }
-    &:hover polygon, &:hover path {
-      transition: all 1s cubic-bezier(.2,1,.3,1);
-      fill: #fff;
+
+    &:hover polygon,
+    &:hover path {
+        transition: all 1s cubic-bezier(.2, 1, .3, 1);
+        fill: #fff;
     }
-      
+
     &:hover .arrow {
-      animation: arrow-anim 2.5s cubic-bezier(.2,1,.3,1) infinite;
+        animation: arrow-anim 2.5s cubic-bezier(.2, 1, .3, 1) infinite;
     }
+
     &:hover .arrow-fixed {
-      animation: arrow-fixed-anim 2.5s cubic-bezier(.2,1,.3,1) infinite;
+        animation: arrow-fixed-anim 2.5s cubic-bezier(.2, 1, .3, 1) infinite;
     }
-  }
+}
 
 
 @keyframes arrow-anim {
-	0% {
-		opacity: 1;
-		transform: translateX(0);
-	}
-	5% {
-		transform: translateX(-0.1rem);
-	}
-	100% {
-		transform: translateX(1rem);
-		opacity: 0;
-	}
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    5% {
+        transform: translateX(-0.1rem);
+    }
+
+    100% {
+        transform: translateX(1rem);
+        opacity: 0;
+    }
 }
 
 @keyframes arrow-fixed-anim {
-	5% {
-		opacity: 0;
-	}
-	20% {
-		opacity: 0.4;
-	}
-	100% {
-		opacity: 1;
-	}
+    5% {
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
-#navBar{
+#navBar {
     position: fixed;
     left: 0;
     right: 0;
@@ -103,15 +120,15 @@ svg {
     transition: all 300ms ease;
 }
 
-#navBar.fixed{
+#navBar.fixed {
     background-color: rgb(51 62 77 / 40%);
 }
 
-.nav_Container > a{
+.nav_Container>a {
     font-size: 26px;
     font-weight: 600;
     color: #fff;
-    line-height: normal;  
+    line-height: normal;
     text-decoration: none;
     cursor: pointer;
     font-family: "Anta", sans-serif;
@@ -132,13 +149,13 @@ svg {
     padding: 0 20px;
 }
 
-.searchIcon{
+.searchIcon {
     width: 25px;
     cursor: pointer;
     transition: all 300ms ease;
 }
 
-.searchIcon:hover{
+.searchIcon:hover {
     scale: 1.2;
 }
 
@@ -155,7 +172,7 @@ svg {
     padding: 100px 20px;
 }
 
-#filters ul li{
+#filters ul li {
     font-size: 16px;
     color: #fff;
     list-style: none;
@@ -169,15 +186,15 @@ svg {
     overflow: hidden;
 }
 
-#filters ul li:hover::after{
+#filters ul li:hover::after {
     right: 10px;
 }
 
-#filters ul li.active{
+#filters ul li.active {
     background-color: #090f1d;
 }
 
-#filters ul li::after{
+#filters ul li::after {
     content: ">";
     position: absolute;
     font-size: 20px;
@@ -191,11 +208,11 @@ svg {
     transition: right 300ms ease;
 }
 
-#filters ul li:hover{
+#filters ul li:hover {
     background-color: #090f1d;
 }
 
-#mainWrap{
+#mainWrap {
     width: 100%;
     max-width: 1200px;
     height: 100%;
@@ -203,7 +220,7 @@ svg {
     margin: auto;
 }
 
-.contWrap{
+.contWrap {
     margin-bottom: 40px;
 }
 
@@ -214,14 +231,14 @@ svg {
     margin-bottom: 30px;
 }
 
-.pages{
+.pages {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
 
-.pages strong{
+.pages strong {
     width: 36px;
     height: 36px;
     color: #fff;
@@ -235,11 +252,11 @@ svg {
     user-select: none;
 }
 
-.contWrap h2{
+.contWrap h2 {
     color: #fff;
 }
 
-.contWrap ul{
+.contWrap ul {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -248,7 +265,7 @@ svg {
     min-height: 1500px;
 }
 
-.contWrap ul li{
+.contWrap ul li {
     position: relative;
     width: 100%;
     max-width: 18%;
@@ -261,7 +278,7 @@ svg {
     list-style: none;
 }
 
-.contWrap ul li:hover{
+.contWrap ul li:hover {
     scale: 1.04;
     box-shadow: 2px 2px 2px 2px #99838317;
 }
@@ -281,7 +298,7 @@ svg {
     z-index: 1;
 }
 
-.contWrap ul li img{
+.contWrap ul li img {
     width: 100%;
     min-height: 250px;
     max-height: 250px;
@@ -299,20 +316,20 @@ svg {
     flex-wrap: wrap;
 }
 
-.contWrap ul li .mainTitle strong{
+.contWrap ul li .mainTitle strong {
     display: block;
     font-size: 16px;
     color: #fff;
-    padding: 0 ;
+    padding: 0;
     font-weight: 500;
 }
 
-.contWrap ul li .mainTitle span{
+.contWrap ul li .mainTitle span {
     font-size: 12px;
     color: #fff;
 }
 
-.contWrap ul li h3{
+.contWrap ul li h3 {
     font-size: 12px;
     color: #fff;
     padding: 0 10px;
@@ -321,13 +338,65 @@ svg {
     line-height: 19px;
 }
 
+.hiddenInfo {
+    display: none;
+}
 
-@media(max-width:800px){
+section#popup_Warp {
+    position: fixed;
+    z-index: 111;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    background-color: rgb(0 0 0 / 80%);
+}
+
+.mainPop {
+    width: 100%;
+    height: max-content;
+    max-width: 800px;
+    max-height: 600px;
+    display: flex;
+    background-color: #fff;
+    padding: 20px 25px;
+    border-radius: 30px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    gap: 50px;
+}
+
+.mainPop img[alt="Movie Img"] {
+    width: 100%;
+    max-width: 160px;
+    height: auto;
+    border-radius: 20px;
+}
+
+img.closeForm {
+    cursor: pointer;
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    right: 15px;
+    top: 14px;
+    transition: all 100ms ease;
+}
+
+img.closeForm:hover {
+    scale: 1.1;
+}
+
+
+@media(max-width:800px) {
     svg {
         width: 15px;
     }
 
-    .nav_Container{
+    .nav_Container {
         padding: 10px 20px 10px 20px;
     }
 
@@ -335,19 +404,19 @@ svg {
         font-size: 1.2em;
     }
 
-    #mainWrap{
+    #mainWrap {
         padding: 70px 15px;
     }
 
-    .searchInp{
+    .searchInp {
         display: none;
     }
 
-    .titlePage{
+    .titlePage {
         margin-bottom: 15px;
     }
 
-    .contWrap ul li{
+    .contWrap ul li {
         max-width: 48%;
     }
 
