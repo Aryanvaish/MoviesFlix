@@ -69,7 +69,6 @@ function Create(pageurl, parentDiv, page) {
     fetch(`${pageurl}&page=${page}`)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
 
             const listWrap = document.querySelector(`.${parentDiv} ul`);
             for (let i = 0; i < data.results.length; i++) {
@@ -77,7 +76,6 @@ function Create(pageurl, parentDiv, page) {
                 let title = data.results[i].title || data.results[i].name || 'Title Not Found' ;
                 let genreKey = data.results[i].genre_ids;
                 let adultScheme = data.results[i].adult;
-                let mediaType = data.results[i].media_type;
                 let overview = data.results[i].overview;
                 let releDate = data.results[i].release_date;
                 let voteRating = data.results[i].vote_average.toString().substring(0, 3);  
@@ -116,21 +114,40 @@ function Create(pageurl, parentDiv, page) {
 
 
                 listWrap.innerHTML += `   
-                    <li>
+                    <li class="cont_boxes">
                     <strong class="rating ${ratingBg}">${rating}</strong>  
                     <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/${poster}" class="poster" alt="Poster">
                     <div class="mainTitle"><strong>${title}</strong><span>${release_date ? `(${release_date})` : ''}</span></div>
                     <h3 class="genre">${genretags}</h3>
                     <div class="hiddenInfo">
                         <p class="adultScheme">${adultScheme}</p>
-                        <p class="mediaType">${mediaType}</p>
                         <strong class="overview">${overview}</strong>  
                         <h3 class="releDate">${releDate}</h3>
                         <p class="voteRating">${voteRating} / 10</p>   
                     </div>
                     </li>
-            `;
+                    `;
+                    
+                }
+
+
+            const popup_Warp = document.getElementById('popup_Warp');    
+                
+            const content_Boxes = document.querySelectorAll('.cont_boxes');
+            for(let i = 0; i < content_Boxes.length; i++){
+                content_Boxes[i].addEventListener("click", function(){
+                    
+                    popup_Warp.classList.remove('hide');
+                })
             }
+  
+            const closeForm = document.querySelectorAll('.closeForm');
+            for(let k = 0; k < closeForm.length; k++){
+                closeForm[k].addEventListener("click", function(){
+                    popup_Warp.classList.add('hide');
+                })
+            }
+
 
             const moviePoster = document.querySelectorAll(".poster");
             for (let j = 0; j < moviePoster.length; j++) {
@@ -138,6 +155,8 @@ function Create(pageurl, parentDiv, page) {
                     moviePoster[j].setAttribute("src", "images/error.jpg");
                 });
             }
+
+
 
         });
 
