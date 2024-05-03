@@ -459,6 +459,7 @@ h3.rating {
 
     .contWrap ul li {
         max-width: 48%;
+        cursor: unset;
     }
 
     .pages strong {
@@ -468,12 +469,17 @@ h3.rating {
         line-height: 28px;
     }
 
-
     .mainPop {
         width: calc(100% - 20px);
+        max-height: 580px;
+        overflow-y: auto;
         flex-wrap: wrap;
         border-radius: 15px;
         gap: 25px;
+    }
+
+    .mainPop::-webkit-scrollbar {
+        display: none;
     }
 
     .mainPop img[alt="Movie Img"]{
@@ -500,6 +506,7 @@ h3.rating {
     
     strong.genres {
         font-size: 15px;
+        line-height: 21px;
     }
     
     p.overview_context {
