@@ -24,7 +24,7 @@ fetchGenreData("https://api.themoviedb.org/3/genre/movie/list?api_key=e6e82b1d38
 fetchGenreData("https://api.themoviedb.org/3/genre/tv/list?api_key=e6e82b1d384c0712afd3d57364994f60");
 
 
-function layoutRender(API_URL, parentDiv, secTitle) {
+async function layoutRender(API_URL, parentDiv, secTitle) {
     const mainBox = document.querySelector(`.${parentDiv}`);
 
     mainBox.innerHTML = `<div class="titlePage">
@@ -38,35 +38,35 @@ function layoutRender(API_URL, parentDiv, secTitle) {
                     <ul></ul>
     `;
 
-    Create(API_URL, parentDiv, 1);
+    await Create(API_URL, parentDiv, 1);
 
     const listWrap = document.querySelector(`.${parentDiv} ul`);
     const currPage = document.querySelector(`.curr-${parentDiv}`);
     const prevPage = document.querySelector(`.prev-${parentDiv}`);
     const nextPage = document.querySelector(`.next-${parentDiv}`);
 
-    nextPage.addEventListener("click", function () {
+    nextPage.addEventListener("click", async function () {
         if (currPage.textContent == 450) {
             return
         }
         listWrap.innerHTML = "";
         currPage.textContent++;
-        Create(API_URL, parentDiv, currPage.textContent);
+        await Create(API_URL, parentDiv, currPage.textContent);
     });
 
-    prevPage.addEventListener("click", function () {
+    prevPage.addEventListener("click", async function () {
         if (currPage.textContent == 1) {
             return
         }
         listWrap.innerHTML = "";
         currPage.textContent--;
-        Create(API_URL, parentDiv, currPage.textContent);
+        await Create(API_URL, parentDiv, currPage.textContent);
     });
 }
 
 
-function Create(pageurl, parentDiv, page) {
-    fetch(`${pageurl}&page=${page}`)
+async function Create(pageurl, parentDiv, page) {
+    await fetch(`${pageurl}&page=${page}`)
         .then((response) => response.json())
         .then((data) => {
 
@@ -108,10 +108,7 @@ function Create(pageurl, parentDiv, page) {
                 }
 
 
-                if(ratingStat == 0){
-                    rating = "Upcoming";
-                }
-
+                if(ratingStat == 0){rating = "Upcoming";}
 
                 listWrap.innerHTML += `   
                     <li class="cont_boxes">
@@ -131,24 +128,6 @@ function Create(pageurl, parentDiv, page) {
                 }
 
 
-            const popup_Warp = document.getElementById('popup_Warp');    
-                
-            const content_Boxes = document.querySelectorAll('.cont_boxes');
-            for(let i = 0; i < content_Boxes.length; i++){
-                content_Boxes[i].addEventListener("click", function(){
-                    
-                    popup_Warp.classList.remove('hide');
-                })
-            }
-  
-            const closeForm = document.querySelectorAll('.closeForm');
-            for(let k = 0; k < closeForm.length; k++){
-                closeForm[k].addEventListener("click", function(){
-                    popup_Warp.classList.add('hide');
-                })
-            }
-
-
             const moviePoster = document.querySelectorAll(".poster");
             for (let j = 0; j < moviePoster.length; j++) {
                 moviePoster[j].addEventListener("error", function () {
@@ -157,14 +136,45 @@ function Create(pageurl, parentDiv, page) {
             }
 
 
-
-        });
+        })
 
 }
 
-layoutRender(`https://api.themoviedb.org/3/trending/all/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trending", "Trending");
-layoutRender(`https://api.themoviedb.org/3/trending/movie/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingMovie", "Trending Movie");
-layoutRender(`https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedMovies", "Top Listed Movies");
-layoutRender(`https://api.themoviedb.org/3/trending/tv/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingTv", "Trending Series");
-layoutRender(`https://api.themoviedb.org/3/tv/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedSeries", "Top Listed Series");
+layoutRender(`https://api.themoviedb.org/3/trending/all/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trending", "Trending")
+.then(() => layoutRender(`https://api.themoviedb.org/3/trending/movie/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingMovie", "Trending Movie"))
+.then(() => layoutRender(`https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedMovies", "Top Listed Movies"))
+.then(() => layoutRender(`https://api.themoviedb.org/3/trending/tv/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingTv", "Trending Series"))
+.then(() => layoutRender(`https://api.themoviedb.org/3/tv/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedSeries", "Top Listed Series"))
+.then(infoPop);
+
+function infoPop(){
+    const popup_Warp = document.getElementById('popup_Warp');    
+            
+    const content_Boxes = document.querySelectorAll('.cont_boxes');
+    for(let i = 0; i < content_Boxes.length; i++){
+        content_Boxes[i].addEventListener("click", function(){
+            // console.log(this);
+
+            document.querySelector('.mainPop > img.popImg').src = this.querySelector('.poster').src;
+            document.querySelector('.mainPop .title > h2').textContent = this.querySelector('.mainTitle > strong').textContent;
+            document.querySelector('.mainPop p.releaseDate').innerHTML = `Release Date : ${this.querySelector('.hiddenInfo .releDate').textContent}`;
+            document.querySelector('.mainPop strong.genres').innerHTML = `Genre : ${this.querySelector('.genre').textContent}`;
+            document.querySelector('.mainPop p.overview_context').innerHTML = this.querySelector('.hiddenInfo > .overview').textContent;
+            document.querySelector('.mainPop h3.rating').innerHTML = `Rating : ${this.querySelector('.hiddenInfo .voteRating').textContent}`;
+
+            document.querySelector('body').style.overflowY = "hidden";
+            popup_Warp.classList.remove('hide');
+        })
+    }
+
+    const closeForm = document.querySelectorAll('.closeForm');
+    for(let k = 0; k < closeForm.length; k++){
+        closeForm[k].addEventListener("click", function(){
+            document.querySelector('body').style.overflowY = "auto";
+            popup_Warp.classList.add('hide');
+        })
+    }
+
+}
+
 

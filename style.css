@@ -367,13 +367,15 @@ section#popup_Warp {
     bottom: 0;
     margin: auto;
     gap: 50px;
+    box-shadow: 1px 1px 6px 4px #1a1a1a;
 }
 
 .mainPop img[alt="Movie Img"] {
     width: 100%;
-    max-width: 160px;
+    max-width: 200px;
     height: auto;
     border-radius: 20px;
+    box-shadow: 1px 1px 6px 4px #cccccc;
 }
 
 img.closeForm {
@@ -464,5 +466,47 @@ h3.rating {
         height: 28px;
         font-size: 12px;
         line-height: 28px;
+    }
+
+
+    .mainPop {
+        width: calc(100% - 20px);
+        flex-wrap: wrap;
+        border-radius: 15px;
+        gap: 25px;
+    }
+
+    .mainPop img[alt="Movie Img"]{
+        max-width: 150px;
+    }
+
+    .title{
+        align-items: flex-start;
+    }
+
+    .title h2 {
+        font-size: 22px;
+    }
+    
+    .title img.adultContext {
+        max-width: 12px;
+        margin-top: 6px;
+    }
+    
+    p.releaseDate {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    
+    strong.genres {
+        font-size: 15px;
+    }
+    
+    p.overview_context {
+        line-height: 19px;
+    }
+    
+    h3.rating {
+        font-size: 14px;
     }
 }
