@@ -394,7 +394,7 @@ img.closeForm:hover {
 
 .title {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     align-items: center;
     margin: 0 0 10px 0;
 }
@@ -407,6 +407,11 @@ img.closeForm:hover {
 .title img.adultContext {
     max-width: 15px;
     margin-top: 3px;
+}
+
+img.adultContext.underRated {
+    max-width: 21px;
+    margin-top: 0;
 }
 
 p.releaseDate {
@@ -488,6 +493,7 @@ h3.rating {
 
     .title{
         align-items: flex-start;
+        gap: 5px;
     }
 
     .title h2 {
@@ -495,8 +501,13 @@ h3.rating {
     }
     
     .title img.adultContext {
-        max-width: 12px;
-        margin-top: 6px;
+        max-width: 14px;
+        margin-top: 7px;
+    }
+
+    img.adultContext.underRated {
+        max-width: 20px;
+        margin-top: 1px;
     }
     
     p.releaseDate {
