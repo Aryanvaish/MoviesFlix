@@ -93,8 +93,10 @@ async function Create(pageurl, parentDiv, page) {
                 var genretags = "";
 
                 for (let j = 0; j < genreKey.length; j++) {
-                    genretags += `${genres[genreKey[j]]} `;
+                    genretags += `${genres[genreKey[j]]} ${j !== (genreKey.length - 1) ? '/' : ''} `;
                 }
+
+                console.log(genretags);
 
                 const ratingStat = parseInt(rating);
                 var ratingBg = "";
@@ -156,7 +158,7 @@ function infoPop(){
 
             document.querySelector('.mainPop > img.popImg').src = this.querySelector('.poster').src;
             document.querySelector('.mainPop .title > h2').textContent = this.querySelector('.mainTitle > strong').textContent;
-            document.querySelector('.mainPop p.releaseDate').innerHTML = `Release Date : ${this.querySelector('.hiddenInfo .releDate').textContent}`;
+            document.querySelector('.mainPop p.releaseDate').innerHTML = `Release Date : <span>${this.querySelector('.hiddenInfo .releDate').textContent} </span>`;
             document.querySelector('.mainPop strong.genres').innerHTML = `Genre : ${this.querySelector('.genre').textContent}`;
             document.querySelector('.mainPop p.overview_context').innerHTML = this.querySelector('.hiddenInfo > .overview').textContent;
             document.querySelector('.mainPop h3.rating').innerHTML = `Rating : ${this.querySelector('.hiddenInfo .voteRating').textContent}`;
@@ -189,8 +191,8 @@ function infoPop(){
 
 
 if(popup_Warp.classList.contains('hide')){
-    addEventListener("keydown", (e) => {
-        if (e.isComposing || e.code === 'Escape') {
+addEventListener("keydown", (e) => {
+    if (e.isComposing || e.code === 'Escape') {
             document.querySelector('body').style.overflowY = "auto";
             popup_Warp.classList.add('hide');
         }
