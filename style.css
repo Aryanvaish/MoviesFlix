@@ -110,6 +110,7 @@ svg {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    min-height: 70px;
     max-width: 1200px;
     padding: 15px 50px 15px 30px;
     margin: auto;
@@ -136,19 +137,48 @@ svg {
     gap: 15px;
 }
 
-.searchInp {
-    border-radius: 30px;
+.searchInp{
     height: 30px;
-    width: 180px;
+    max-width: 180px;
+    border-radius: 30px;
     outline: none;
     border: none;
-    padding: 0 20px;
+    padding: 0 0;
+    width: 0;
+    background: rgb(255 255 255 / 20%);
+    color: hsl(0, 0%, 90%);
 }
 
-.searchIcon {
+.searchInp::placeholder{
+    color: hsl(0, 0%, 80%);
+}
+
+.searchInp.shown{
+    transition: all .8s ease;
+    padding: 0 20px;
+    width: 100%;
+} 
+
+.searchInp.hide{
+    transition: all 0s ease;
+} 
+
+img.filterSearch {
+    display: none;
+    max-width: 20px;
+}
+
+.searchIcon{
     width: 25px;
+    margin-left: auto;
     cursor: pointer;
     transition: all 300ms ease;
+}
+
+.searchClose{
+    max-width: 36px;
+    cursor: pointer;
+    display: none;
 }
 
 .searchIcon:hover {

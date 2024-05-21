@@ -69,19 +69,20 @@ async function Create(pageurl, parentDiv, page) {
     await fetch(`${pageurl}&page=${page}`)
         .then((response) => response.json())
         .then((data) => {
+            // console.log(data);
 
             const listWrap = document.querySelector(`.${parentDiv} ul`);
             for (let i = 0; i < data.results.length; i++) {
                 let poster = data.results[i].poster_path;
-                let title = data.results[i].title || data.results[i].name || 'Title Not Found' ;
+                let title = data.results[i].title || data.results[i].name || 'Title Not Found';
                 let genreKey = data.results[i].genre_ids;
                 let adultScheme = data.results[i].adult;
                 let overview = data.results[i].overview;
                 let releDate = data.results[i].release_date;
-                let voteRating = data.results[i].vote_average.toString().substring(0, 3);  
-                
+                let voteRating = data.results[i].vote_average.toString().substring(0, 3);
 
-                
+
+
 
                 let release_date = null;
                 if (data.results[i].release_date) {
@@ -96,7 +97,7 @@ async function Create(pageurl, parentDiv, page) {
                     genretags += `${genres[genreKey[j]]} ${j !== (genreKey.length - 1) ? '/' : ''} `;
                 }
 
-                console.log(genretags);
+                // console.log(genretags);
 
                 const ratingStat = parseInt(rating);
                 var ratingBg = "";
@@ -110,7 +111,7 @@ async function Create(pageurl, parentDiv, page) {
                 }
 
 
-                if(ratingStat == 0){rating = "Upcoming";}
+                if (ratingStat == 0) { rating = "Upcoming"; }
 
                 listWrap.innerHTML += `   
                     <li class="cont_boxes">
@@ -126,8 +127,8 @@ async function Create(pageurl, parentDiv, page) {
                     </div>
                     </li>
                     `;
-                    
-                }
+
+            }
 
 
             const moviePoster = document.querySelectorAll(".poster");
@@ -143,18 +144,20 @@ async function Create(pageurl, parentDiv, page) {
 }
 
 layoutRender(`https://api.themoviedb.org/3/trending/all/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trending", "Trending")
-.then(() => layoutRender(`https://api.themoviedb.org/3/trending/movie/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingMovie", "Trending Movie"))
-.then(() => layoutRender(`https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedMovies", "Top Listed Movies"))
-.then(() => layoutRender(`https://api.themoviedb.org/3/trending/tv/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingTv", "Trending Series"))
-.then(() => layoutRender(`https://api.themoviedb.org/3/tv/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedSeries", "Top Listed Series"))
-.then(infoPop);
+    .then(() => layoutRender(`https://api.themoviedb.org/3/trending/movie/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingMovie", "Trending Movie"))
+    .then(() => layoutRender(`https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedMovies", "Top Listed Movies"))
+    .then(() => layoutRender(`https://api.themoviedb.org/3/trending/tv/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingTv", "Trending Series"))
+    .then(() => layoutRender(`https://api.themoviedb.org/3/tv/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedSeries", "Top Listed Series"))
+    .then(infoPop);
 
-const popup_Warp = document.getElementById('popup_Warp');    
-function infoPop(){
+const popup_Warp = document.getElementById('popup_Warp');
+function infoPop() {
     const content_Boxes = document.querySelectorAll('.cont_boxes');
-    for(let i = 0; i < content_Boxes.length; i++){
-        content_Boxes[i].addEventListener("click", function(){
-            // console.log(this);
+    for (let i = 0; i < content_Boxes.length; i++) {
+        content_Boxes[i].addEventListener("click", function () {
+
+            console.log("Helloworld");
+
 
             document.querySelector('.mainPop > img.popImg').src = this.querySelector('.poster').src;
             document.querySelector('.mainPop .title > h2').textContent = this.querySelector('.mainTitle > strong').textContent;
@@ -164,11 +167,11 @@ function infoPop(){
             document.querySelector('.mainPop h3.rating').innerHTML = `Rating : ${this.querySelector('.hiddenInfo .voteRating').textContent}`;
 
             const ratedOrnot = this.querySelector('.hiddenInfo .adultScheme').textContent;
-            if(ratedOrnot == 'false'){
+            if (ratedOrnot == 'false') {
                 document.querySelector('.mainPop img.adultContext').src = 'images/tick.png';
                 document.querySelector('.mainPop img.adultContext').title = 'Family Friendly 😄';
                 document.querySelector('.mainPop img.adultContext').classList.add('underRated');
-            }else{
+            } else {
                 document.querySelector('.mainPop img.adultContext').src = 'images/rated.png'
                 document.querySelector('.mainPop img.adultContext').title = '18+ Content ☠️';
                 document.querySelector('.mainPop img.adultContext').classList.add('RatedPlus');
@@ -180,8 +183,8 @@ function infoPop(){
     }
 
     const closeForm = document.querySelectorAll('.closeForm');
-    for(let k = 0; k < closeForm.length; k++){
-        closeForm[k].addEventListener("click", function(){
+    for (let k = 0; k < closeForm.length; k++) {
+        closeForm[k].addEventListener("click", function () {
             document.querySelector('body').style.overflowY = "auto";
             popup_Warp.classList.add('hide');
         })
@@ -190,11 +193,38 @@ function infoPop(){
 }
 
 
-if(popup_Warp.classList.contains('hide')){
-addEventListener("keydown", (e) => {
-    if (e.isComposing || e.code === 'Escape') {
+if (popup_Warp.classList.contains('hide')) {
+    addEventListener("keydown", (e) => {
+        if (e.isComposing || e.code === 'Escape') {
             document.querySelector('body').style.overflowY = "auto";
             popup_Warp.classList.add('hide');
         }
     })
 }
+
+
+
+document.querySelector('.searchIcon').addEventListener('click', function () {
+    document.querySelector('.searchInp').classList.add('shown');
+    this.style.display = "none";
+    document.querySelector('.searchClose').style.display = "block";
+    document.querySelector('.filterSearch').style.display = "block";
+});
+
+
+document.querySelector('.searchClose').addEventListener('click', function () {
+    document.querySelector('.searchInp').classList.toggle('shown');
+    this.style.display = "none";
+    document.querySelector('.searchIcon').style.display = "block";
+    document.querySelector('.filterSearch').style.display = "none";
+})
+
+
+function Search() {
+    //  Search_Api = https://api.themoviedb.org/3/search/multi?api_key=e6e82b1d384c0712afd3d57364994f60&query=doctor-who&include_adult=false&language=en-US&page=1
+
+
+
+
+
+} Search();
