@@ -29,6 +29,28 @@
         </div>
     </section>
 
+    <section id="popup_Warp" class="hide">
+        <div class="advFilters">
+            <input type="text" class="popSearchInp" placeholder="Search Here...">
+            <select name="Category">
+                <option value="Category" selected>Category</option>
+                <option value="All">All</option>
+                <option value="Movie">Movie</option>
+                <option value="Series">Series</option>
+                <option value="Person">Person</option>
+            </select>
+            <select name="Adult">
+                <option value="Adult" selected>Adult</option>
+                <option value="True">Yes</option>
+                <option value="False">No</option>
+            </select>
+            <select name="Release Date" class="ReleaseSelect">
+                <option value="Year of release">Year of Release</option>
+            </select>
+            <button class="filterbtn">Submit Search</button>
+        </div>
+    </section>
+
     <section id="navBar">
         <div class="nav_Container">
                 <a href="https://github.com/aryanvaish" target="_blank">MoviesFlix</a>
@@ -53,7 +75,9 @@
 
     </section>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
+    <script type="module" src="./components/detailpopup.js"></script>
+    <script type="module" src="components/search.js"></script>
 </body>
 
 </html>

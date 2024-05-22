@@ -1,3 +1,6 @@
+import { Search } from "./components/search.js";
+import { infoPop } from "./components/detailpopup.js";
+
 window.addEventListener("scroll", function () {
     const navbar = document.querySelector("#navBar");
     if (window.scrollY > 40) {
@@ -82,8 +85,6 @@ async function Create(pageurl, parentDiv, page) {
                 let voteRating = data.results[i].vote_average.toString().substring(0, 3);
 
 
-
-
                 let release_date = null;
                 if (data.results[i].release_date) {
                     release_date = data.results[i].release_date.substring(0, 4);
@@ -150,81 +151,16 @@ layoutRender(`https://api.themoviedb.org/3/trending/all/day?api_key=e6e82b1d384c
     .then(() => layoutRender(`https://api.themoviedb.org/3/tv/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedSeries", "Top Listed Series"))
     .then(infoPop);
 
-const popup_Warp = document.getElementById('popup_Warp');
-function infoPop() {
-    const content_Boxes = document.querySelectorAll('.cont_boxes');
-    for (let i = 0; i < content_Boxes.length; i++) {
-        content_Boxes[i].addEventListener("click", function () {
-
-            console.log("Helloworld");
-
-
-            document.querySelector('.mainPop > img.popImg').src = this.querySelector('.poster').src;
-            document.querySelector('.mainPop .title > h2').textContent = this.querySelector('.mainTitle > strong').textContent;
-            document.querySelector('.mainPop p.releaseDate').innerHTML = `Release Date : <span>${this.querySelector('.hiddenInfo .releDate').textContent} </span>`;
-            document.querySelector('.mainPop strong.genres').innerHTML = `Genre : ${this.querySelector('.genre').textContent}`;
-            document.querySelector('.mainPop p.overview_context').innerHTML = this.querySelector('.hiddenInfo > .overview').textContent;
-            document.querySelector('.mainPop h3.rating').innerHTML = `Rating : ${this.querySelector('.hiddenInfo .voteRating').textContent}`;
-
-            const ratedOrnot = this.querySelector('.hiddenInfo .adultScheme').textContent;
-            if (ratedOrnot == 'false') {
-                document.querySelector('.mainPop img.adultContext').src = 'images/tick.png';
-                document.querySelector('.mainPop img.adultContext').title = 'Family Friendly 😄';
-                document.querySelector('.mainPop img.adultContext').classList.add('underRated');
-            } else {
-                document.querySelector('.mainPop img.adultContext').src = 'images/rated.png'
-                document.querySelector('.mainPop img.adultContext').title = '18+ Content ☠️';
-                document.querySelector('.mainPop img.adultContext').classList.add('RatedPlus');
-            }
-
-            document.querySelector('body').style.overflowY = "hidden";
-            popup_Warp.classList.remove('hide');
-        })
-    }
-
-    const closeForm = document.querySelectorAll('.closeForm');
-    for (let k = 0; k < closeForm.length; k++) {
-        closeForm[k].addEventListener("click", function () {
-            document.querySelector('body').style.overflowY = "auto";
-            popup_Warp.classList.add('hide');
-        })
-    }
-
-}
-
-
-if (popup_Warp.classList.contains('hide')) {
-    addEventListener("keydown", (e) => {
-        if (e.isComposing || e.code === 'Escape') {
-            document.querySelector('body').style.overflowY = "auto";
-            popup_Warp.classList.add('hide');
-        }
-    })
-}
-
-
-
-document.querySelector('.searchIcon').addEventListener('click', function () {
-    document.querySelector('.searchInp').classList.add('shown');
-    this.style.display = "none";
-    document.querySelector('.searchClose').style.display = "block";
-    document.querySelector('.filterSearch').style.display = "block";
-});
-
-
-document.querySelector('.searchClose').addEventListener('click', function () {
-    document.querySelector('.searchInp').classList.toggle('shown');
-    this.style.display = "none";
-    document.querySelector('.searchIcon').style.display = "block";
-    document.querySelector('.filterSearch').style.display = "none";
-})
-
-
-function Search() {
-    //  Search_Api = https://api.themoviedb.org/3/search/multi?api_key=e6e82b1d384c0712afd3d57364994f60&query=doctor-who&include_adult=false&language=en-US&page=1
 
 
 
 
 
-} Search();
+
+
+ 
+
+
+
+
+//  Search_Api = https://api.themoviedb.org/3/search/multi?api_key=e6e82b1d384c0712afd3d57364994f60&query=doctor-who&include_adult=false&language=en-US&page=1
