@@ -1,5 +1,6 @@
+
 import { Search } from "./components/search.js";
-import { infoPop } from "./components/detailpopup.js";
+import { detailpopup } from "./components/detailpopup.js";
 
 window.addEventListener("scroll", function () {
     const navbar = document.querySelector("#navBar");
@@ -55,6 +56,7 @@ async function layoutRender(API_URL, parentDiv, secTitle) {
         listWrap.innerHTML = "";
         currPage.textContent++;
         await Create(API_URL, parentDiv, currPage.textContent);
+        detailpopup();
     });
 
     prevPage.addEventListener("click", async function () {
@@ -64,15 +66,15 @@ async function layoutRender(API_URL, parentDiv, secTitle) {
         listWrap.innerHTML = "";
         currPage.textContent--;
         await Create(API_URL, parentDiv, currPage.textContent);
+        detailpopup();
     });
 }
 
 
-async function Create(pageurl, parentDiv, page) {
+export async function Create(pageurl, parentDiv, page) {
     await fetch(`${pageurl}&page=${page}`)
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data);
 
             const listWrap = document.querySelector(`.${parentDiv} ul`);
             for (let i = 0; i < data.results.length; i++) {
@@ -81,17 +83,13 @@ async function Create(pageurl, parentDiv, page) {
                 let genreKey = data.results[i].genre_ids;
                 let adultScheme = data.results[i].adult;
                 let overview = data.results[i].overview;
-                let releDate = data.results[i].release_date;
+                let releDate = data.results[i].release_date || data.results[i].first_air_date;
                 let voteRating = data.results[i].vote_average.toString().substring(0, 3);
-
-
-                let release_date = null;
-                if (data.results[i].release_date) {
-                    release_date = data.results[i].release_date.substring(0, 4);
-                }
-
                 let rating = data.results[i].vote_average.toString().substring(0, 3);
+                let contentId = data.results[i].id;
+                let mediaType = data.results[i].media_type;
 
+                
                 var genretags = "";
 
                 for (let j = 0; j < genreKey.length; j++) {
@@ -118,13 +116,15 @@ async function Create(pageurl, parentDiv, page) {
                     <li class="cont_boxes">
                     <strong class="rating ${ratingBg}">${rating}</strong>  
                     <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/${poster}" class="poster" alt="Poster">
-                    <div class="mainTitle"><strong>${title}</strong><span>${release_date ? `(${release_date})` : ''}</span></div>
+                    <div class="mainTitle"><strong>${title}</strong><span>${releDate.substring(0, 4) ? `(${releDate.substring(0, 4)})` : ''}</span></div>
                     <h3 class="genre">${genretags}</h3>
                     <div class="hiddenInfo">
+                        <p class="mediaType">${mediaType}</p> 
                         <p class="adultScheme">${adultScheme}</p>
                         <strong class="overview">${overview}</strong>  
                         <h3 class="releDate">${releDate}</h3>
-                        <p class="voteRating">${voteRating} / 10</p>   
+                        <p class="voteRating">${voteRating} / 10</p> 
+                        <span class="contentId">${contentId}</span>  
                     </div>
                     </li>
                     `;
@@ -146,19 +146,10 @@ async function Create(pageurl, parentDiv, page) {
 
 layoutRender(`https://api.themoviedb.org/3/trending/all/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trending", "Trending")
     .then(() => layoutRender(`https://api.themoviedb.org/3/trending/movie/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingMovie", "Trending Movie"))
-    .then(() => layoutRender(`https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedMovies", "Top Listed Movies"))
     .then(() => layoutRender(`https://api.themoviedb.org/3/trending/tv/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingTv", "Trending Series"))
+    .then(() => layoutRender(`https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedMovies", "Top Listed Movies"))
     .then(() => layoutRender(`https://api.themoviedb.org/3/tv/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedSeries", "Top Listed Series"))
-    .then(infoPop);
-
-
-
-
-
-
-
-
- 
+    .then(detailpopup);
 
 
 

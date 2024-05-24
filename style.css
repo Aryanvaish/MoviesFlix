@@ -112,7 +112,7 @@ svg {
     width: 100%;
     min-height: 70px;
     max-width: 1200px;
-    padding: 15px 50px 15px 30px;
+    padding: 15px 40px;
     margin: auto;
     transition: all 300ms ease;
 }
@@ -129,12 +129,14 @@ svg {
     text-decoration: none;
     cursor: pointer;
     font-family: "Anta", sans-serif;
+    user-select: none;
 }
 
 .searchBar {
     display: flex;
     align-items: center;
     gap: 15px;
+    user-select: none;
 }
 
 .searchInp{
@@ -228,6 +230,7 @@ img.filterSearch{
 
 .contWrap h2 {
     color: #fff;
+    user-select: none;
 }
 
 .contWrap ul {
@@ -237,6 +240,7 @@ img.filterSearch{
     flex-wrap: wrap;
     gap: 10px 0;
     min-height: 1500px;
+    user-select: none;
 }
 
 .contWrap ul li {
@@ -334,7 +338,7 @@ section#popup_Warp {
     display: flex;
     align-items: flex-start;
     background-color: #fff;
-    padding: 20px 25px;
+    padding: 25px;
     border-radius: 30px;
     position: absolute;
     left: 0;
@@ -349,21 +353,72 @@ section#popup_Warp {
 .advFilters{
     width: 100%;
     height: max-content;
-    max-width: 800px;
-    max-height: 600px;
+    max-width: 650px;
+    max-height: max-content;
+    background-color: #fff;
     display: flex;
     align-items: flex-start;
-    background-color: #fff;
+    justify-content: space-between;
+    flex-wrap: wrap;
     padding: 20px 25px;
-    border-radius: 30px;
+    border-radius: 10px;
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
     margin: auto;
-    gap: 50px;
+    gap: 15px 0;
     box-shadow: 1px 1px 6px 4px #1a1a1a;
+}
+
+.advFilters .popSearchInp{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    padding: 0 20px;
+    font-size: 16px;
+    outline: none;
+    border: 1px solid #0f172a6b;
+    background: transparent;
+    color: #000;
+}
+
+.advFilters > select{
+    width: 100%;
+    max-width: 32%;
+    border: 1px solid #0f172a6b;
+    outline: unset;
+    padding: 8px 10px;
+    border-radius: 5px;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 98%;
+    background-position-y: 3px;
+}
+
+.advFilters > button.filterbtn {
+    width: 100%;
+    max-width: 100%;
+    background: rgb(70 102 179);
+    border: 2px solid rgb(70 102 179);
+    padding: 8px 10px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.advFilters > .filterClose{
+    width: 100%;
+    max-width: 40px;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
 }
 
 .mainPop img[alt="Movie Img"] {
@@ -373,7 +428,6 @@ section#popup_Warp {
     border-radius: 20px;
     box-shadow: 1px 1px 6px 4px #cccccc;
 }
-
 
 img.closeForm {
     cursor: pointer;
@@ -433,7 +487,7 @@ p.overview_context {
     font-size: 14px;
     font-weight: 500;
     line-height: 21px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 6;
@@ -443,6 +497,22 @@ p.overview_context {
 
 h3.rating {
     font-size: 15px;
+}
+
+.trailerWrap > img {
+    max-width: 30px;
+}
+
+.trailerWrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.trailerWrap > strong {
+    font-size: 15px;
+    color: #000;
 }
 
 
@@ -485,7 +555,7 @@ h3.rating {
 
     .mainPop {
         width: calc(100% - 20px);
-        max-height: 580px;
+        max-height: calc(100% - 40px);
         overflow-y: auto;
         flex-wrap: wrap;
         border-radius: 15px;

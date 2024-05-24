@@ -1,3 +1,4 @@
+
 document.querySelector('.searchIcon').addEventListener('click', function () {
     document.querySelector('.searchInp').classList.add('shown');
     this.style.display = "none";
@@ -15,11 +16,14 @@ document.querySelector('.searchClose').addEventListener('click', function () {
 }); 
 
 
+document.querySelector('.filterClose').addEventListener('click', () => {
+    advFilters.parentElement.classList.add("hide");
+});
 
+
+
+const advFilters = document.querySelector('.advFilters');
 export function Search() {
-
-    const advFilters = document.querySelector('.advFilters');
-
     document.querySelector('.filterSearch').addEventListener('click', function () {
         advFilters.parentElement.classList.remove("hide");
         console.log();
@@ -39,6 +43,11 @@ export function Search() {
         const selectRelease = document.querySelector('.ReleaseSelect').value;
 
         console.log(SearchInputValue, selectCategory, selectAdult, selectRelease);
+
+        const mainWrap = document.querySelector('.mainWrap');
+        // mainWrap.innerHTML = "";
+        // layoutRender(`https://api.themoviedb.org/3/search/multi?api_key=e6e82b1d384c0712afd3d57364994f60&query=doctor-who&include_adult=false&language=en-US&page=1`);
+
     });
 
 

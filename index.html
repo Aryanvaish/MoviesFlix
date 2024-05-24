@@ -14,6 +14,7 @@
 
     <section id="popup_Warp" class="hide">
         <div class="mainPop">
+            
             <img src="" class="popImg" alt="Movie Img">
             <div class="movieContent">
                 <div class="title">
@@ -23,6 +24,10 @@
                 <p class="releaseDate"></p>
                 <strong class="genres"></strong>
                 <p class="overview_context"></p>
+                <a href="" target="_blank" class="trailerWrap">
+                    <img src="images/play.svg" alt="play Icon">
+                    <strong>Play Trailer</strong>
+                </a>
                 <h3 class="rating"></h3>
             </div>
             <img src="images/PopUpcross.svg" alt="crossIcon" class="closeForm">
@@ -48,6 +53,8 @@
                 <option value="Year of release">Year of Release</option>
             </select>
             <button class="filterbtn">Submit Search</button>
+            <img src="images/searchClose.png" alt="CloseIcon" class="filterClose">
+
         </div>
     </section>
 
@@ -67,11 +74,11 @@
 
 
     <section id="mainWrap">
-        <div class="contWrap trending" data-category="Trending"></div>
-        <div class="contWrap trendingMovie" data-category="trendingMovie"></div>
-        <div class="contWrap toplistedMovies" data-category="ToplistedMovies"></div>
-        <div class="contWrap trendingTv" data-category="trendingTv"></div>
-        <div class="contWrap toplistedSeries" data-category="ToplistedSeries"></div>
+        <div class="contWrap trending" data-category="Trending" data-media-type="multi"></div>
+        <div class="contWrap trendingMovie" data-category="trendingMovie" data-media-type="movie"></div>
+        <div class="contWrap trendingTv" data-category="trendingTv" data-media-type="tv"></div>
+        <div class="contWrap toplistedMovies" data-category="ToplistedMovies" data-media-type="movie"></div>
+        <div class="contWrap toplistedSeries" data-category="ToplistedSeries" data-media-type="tv"></div>
 
     </section>
 
