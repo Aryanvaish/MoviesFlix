@@ -192,7 +192,7 @@ img.filterSearch{
     width: 100%;
     max-width: 1200px;
     height: 100%;
-    padding: 100px 40px;
+    padding: 100px 40px 0;
     margin: auto;
 }
 
@@ -548,7 +548,7 @@ h3.rating {
     }
 
     #mainWrap {
-        padding: 70px 15px;
+        padding: 70px 15px 0;
     }
 
     .searchInp {
@@ -649,5 +649,9 @@ h3.rating {
         width: calc(100% - 30px);
         max-height: 185px;
         border: 2px solid #fff;
+    }
+
+    .contWrap {
+        margin-bottom: 20px;
     }
 }

@@ -73,7 +73,7 @@ export function detailpopup() {
 
              popup_Warp.innerHTML = `
              <div class="ytFrameBody">
-                  <iframe src="https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1" allow="autoplay" frameborder="0" width="100%" height="100%" class="ytframe"></iframe>
+                  <iframe src="https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1" allow="autoplay" frameborder="0" allowfullscreen width="100%" height="100%" class="ytframe"></iframe>
                   <img src="images/searchClose.png" alt="CloseIcon" class="playerClose">
              </div>  
              `; 
