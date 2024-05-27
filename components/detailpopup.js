@@ -5,15 +5,42 @@ const popup_Warp = document.getElementById('popup_Warp');
 export function detailpopup() {
     const content_Boxes = document.querySelectorAll('.cont_boxes');
     for (let i = 0; i < content_Boxes.length; i++) {
+
         content_Boxes[i].addEventListener("click", function () {
 
+            popup_Warp.innerHTML = `
+            <div class="mainPop">
+                <a href="javascript:void(0)" class="videoLink" data-yt-key="">
+                    <img src="" class="popImg" alt="Movie Img">
+                </a>
+                <div class="movieContent">
+                    <div class="title">
+                        <h2></h2>
+                        <img class="adultContext" src="" title=""  alt="rated" >
+                    </div>
+                <p class="releaseDate"></p>
+                <strong class="genres"></strong>
+                <p class="overview_context"></p>
+                <h3 class="rating"></h3>
+                </div>
+                <img src="images/PopUpcross.svg" alt="crossIcon" class="closeForm">
+            </div>`;
 
-            document.querySelector('.mainPop > img.popImg').src = this.querySelector('.poster').src;
+
+            document.querySelector('.mainPop > a > img.popImg').src = this.querySelector('.poster').src;
             document.querySelector('.mainPop .title > h2').textContent = this.querySelector('.mainTitle > strong').textContent;
             document.querySelector('.mainPop p.releaseDate').innerHTML = `Release Date : <span>${this.querySelector('.hiddenInfo .releDate').textContent} </span>`;
             document.querySelector('.mainPop strong.genres').innerHTML = `Genre : ${this.querySelector('.genre').textContent}`;
             document.querySelector('.mainPop p.overview_context').innerHTML = this.querySelector('.hiddenInfo > .overview').textContent;
             document.querySelector('.mainPop h3.rating').innerHTML = `Rating : ${this.querySelector('.hiddenInfo .voteRating').textContent}`;
+
+            const closeForm = document.querySelector('.closeForm');
+                closeForm.addEventListener("click", function () {
+                    popup_Warp.innerHTML = "";
+                    document.querySelector('body').style.overflowY = "auto";
+                    popup_Warp.classList.add('hide');
+            })
+
 
 
             const media = this.parentElement.parentElement.getAttribute("data-media-type");
@@ -25,7 +52,7 @@ export function detailpopup() {
             }else if(media == "movie"){
                 currMedia = "movie";
             }else if(media == "multi"){
-                currMedia = this.querySelector('.hiddenInfo > p.mediaType').textContent
+                currMedia = this.querySelector('.hiddenInfo > p.mediaType').textContent;
             }
 
 
@@ -34,9 +61,29 @@ export function detailpopup() {
             .then((trailerData) => {
                 for (let i = 0; i < trailerData.results.length; i++) {
                     if(trailerData.results[i].type == "Trailer"){
-                        document.querySelector('.mainPop .trailerWrap').setAttribute("href", `https://www.youtube.com/watch?v=${trailerData.results[i].key}`);
+                        document.querySelector('.mainPop .videoLink').setAttribute("data-yt-key", trailerData.results[i].key);
                     }
                 }
+            });
+
+
+            document.querySelector('.mainPop > a.videoLink').addEventListener('click', function(){
+
+            const ytKey = document.querySelector('.mainPop .videoLink').getAttribute("data-yt-key");
+
+             popup_Warp.innerHTML = `
+             <div class="ytFrameBody">
+                  <iframe src="https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1" allow="autoplay" frameborder="0" width="100%" height="100%" class="ytframe"></iframe>
+                  <img src="images/searchClose.png" alt="CloseIcon" class="playerClose">
+             </div>  
+             `; 
+
+             document.querySelector('.playerClose').addEventListener('click', () => {
+                document.querySelector('body').style.overflowY = "auto";
+                popup_Warp.classList.add('hide');
+                popup_Warp.innerHTML = "";
+            });
+
             });
 
 
@@ -51,21 +98,11 @@ export function detailpopup() {
                 document.querySelector('.mainPop img.adultContext').classList.add('RatedPlus');
             }
 
+
             document.querySelector('body').style.overflowY = "hidden";
             popup_Warp.classList.remove('hide');
         })
     }
-
-
-
-    const closeForm = document.querySelectorAll('.closeForm');
-    for (let k = 0; k < closeForm.length; k++) {
-        closeForm[k].addEventListener("click", function () {
-            document.querySelector('body').style.overflowY = "auto";
-            popup_Warp.classList.add('hide');
-        })
-    }
-
 }
 
 
