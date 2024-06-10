@@ -1,4 +1,4 @@
-import { Create } from "../script.js";
+import { popupClose } from "../script.js"
 
 const popup_Warp = document.getElementById('popup_Warp');
 
@@ -23,7 +23,7 @@ export function detailpopup() {
                 <p class="overview_context"></p>
                 <h3 class="rating"></h3>
                 </div>
-                <img src="images/PopUpcross.svg" alt="crossIcon" class="closeForm">
+                <img src="images/searchClose.png" alt="crossIcon" class="closeForm">
             </div>`;
 
 
@@ -36,9 +36,7 @@ export function detailpopup() {
 
             const closeForm = document.querySelector('.closeForm');
                 closeForm.addEventListener("click", function () {
-                    popup_Warp.innerHTML = "";
-                    document.querySelector('body').style.overflowY = "auto";
-                    popup_Warp.classList.add('hide');
+                    popupClose();
             })
 
 
@@ -79,9 +77,7 @@ export function detailpopup() {
              `; 
 
              document.querySelector('.playerClose').addEventListener('click', () => {
-                document.querySelector('body').style.overflowY = "auto";
-                popup_Warp.classList.add('hide');
-                popup_Warp.innerHTML = "";
+                popupClose();
             });
 
             });

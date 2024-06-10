@@ -16,22 +16,29 @@
     </section>
 
 
-
-
     <section id="navBar">
         <div class="nav_Container">
-                <a href="https://github.com/aryanvaish" target="_blank">MoviesFlix</a>
-            <div>
-                <div class="searchBar">
-                     <input type="text" class="searchInp" name="Search Here..." placeholder="Search Here...">
-                     <img src="images/filter.png" alt="filter-Icon" class="filterSearch">
-                     <img src="images/search.svg" alt="Search Icon" class="searchIcon">
-                     <img src="images/searchClose.png" alt="CloseIcon" class="searchClose">
-                </div>
-            </div>
+            <a href="https://github.com/aryanvaish" target="_blank">MoviesFlix</a>
         </div>
+
     </section>
 
+    <section class="advFilters">
+        <input type="text" class="popSearchInp" placeholder="Search Here..." tabindex="1">
+        <select name="Category" tabindex="2">
+            <option value="multi" selected>Category</option>
+            <option value="movie">Movie</option>
+            <option value="tv">Series</option>
+        </select>
+
+        <button class="filterbtn" tabindex="3">Search</button>
+        
+        <div class="invalidText">
+            <i class="arrow up"></i>
+            <strong>Please Enter Movie Name</strong>
+        </div> 
+
+    </section>
 
     <section id="mainWrap">
         <div class="contWrap trending" data-category="Trending" data-media-type="multi"></div>
@@ -39,7 +46,11 @@
         <div class="contWrap trendingTv" data-category="trendingTv" data-media-type="tv"></div>
         <div class="contWrap toplistedMovies" data-category="ToplistedMovies" data-media-type="movie"></div>
         <div class="contWrap toplistedSeries" data-category="ToplistedSeries" data-media-type="tv"></div>
+        
+    </section>
 
+    <section id="searchResult">
+        <div class="contWrap searchResult" data-category="searchResult" data-media-type="multi"></div>
     </section>
 
     <script type="module" src="script.js"></script>

@@ -1,5 +1,3 @@
-
-import { Search } from "./components/search.js";
 import { detailpopup } from "./components/detailpopup.js";
 
 window.addEventListener("scroll", function () {
@@ -12,7 +10,6 @@ window.addEventListener("scroll", function () {
 });
 
 var genres = {};
-var defaultPage = 1;
 
 function fetchGenreData(URL) {
     fetch(URL)
@@ -28,7 +25,7 @@ fetchGenreData("https://api.themoviedb.org/3/genre/movie/list?api_key=e6e82b1d38
 fetchGenreData("https://api.themoviedb.org/3/genre/tv/list?api_key=e6e82b1d384c0712afd3d57364994f60");
 
 
-async function layoutRender(API_URL, parentDiv, secTitle) {
+export async function layoutRender(API_URL, parentDiv, secTitle) {
     const mainBox = document.querySelector(`.${parentDiv}`);
 
     mainBox.innerHTML = `<div class="titlePage">
@@ -42,22 +39,13 @@ async function layoutRender(API_URL, parentDiv, secTitle) {
                     <ul></ul>
     `;
 
-    await Create(API_URL, parentDiv, 1);
+    await UrlCreate(API_URL, parentDiv, 1);
 
+    const totalPages = document.querySelector(`.${parentDiv}`).getAttribute('data-total-pages'); 
     const listWrap = document.querySelector(`.${parentDiv} ul`);
     const currPage = document.querySelector(`.curr-${parentDiv}`);
     const prevPage = document.querySelector(`.prev-${parentDiv}`);
     const nextPage = document.querySelector(`.next-${parentDiv}`);
-
-    nextPage.addEventListener("click", async function () {
-        if (currPage.textContent == 450) {
-            return
-        }
-        listWrap.innerHTML = "";
-        currPage.textContent++;
-        await Create(API_URL, parentDiv, currPage.textContent);
-        detailpopup();
-    });
 
     prevPage.addEventListener("click", async function () {
         if (currPage.textContent == 1) {
@@ -65,34 +53,58 @@ async function layoutRender(API_URL, parentDiv, secTitle) {
         }
         listWrap.innerHTML = "";
         currPage.textContent--;
-        await Create(API_URL, parentDiv, currPage.textContent);
+        await UrlCreate(API_URL, parentDiv, currPage.textContent);
         detailpopup();
     });
+
+    nextPage.addEventListener("click", async function () {
+        if (currPage.textContent == totalPages) {
+            return
+        }
+        listWrap.innerHTML = "";
+        currPage.textContent++;
+        await UrlCreate(API_URL, parentDiv, currPage.textContent);
+        detailpopup();
+    });
+
+
 }
 
 
-export async function Create(pageurl, parentDiv, page) {
+export async function UrlCreate(pageurl, parentDiv, page) {
     await fetch(`${pageurl}&page=${page}`)
         .then((response) => response.json())
         .then((data) => {
 
+
+            if(data.results?.length === 0){
+               document.querySelector('.searchResult ul').innerHTML = `<div class="notFound">Not Found, Please Try Agian !!!</div>`
+            }
+
+            // Total Pages of URLS  
+
+            let total_pages = data.total_pages;
+            const parentWrapper = document.querySelector(`.${parentDiv}`);
+            parentWrapper.setAttribute('data-total-pages', total_pages);
+
+            // End ;
+
             const listWrap = document.querySelector(`.${parentDiv} ul`);
-            for (let i = 0; i < data.results.length; i++) {
+            for (let i = 0; i < data.results?.length; i++) {
                 let poster = data.results[i].poster_path;
                 let title = data.results[i].title || data.results[i].name || 'Title Not Found';
                 let genreKey = data.results[i].genre_ids;
                 let adultScheme = data.results[i].adult;
                 let overview = data.results[i].overview;
                 let releDate = data.results[i].release_date || data.results[i].first_air_date;
-                let voteRating = data.results[i].vote_average.toString().substring(0, 3);
-                let rating = data.results[i].vote_average.toString().substring(0, 3);
+                let voteRating = data.results[i].vote_average?.toString().substring(0, 3);
+                let rating = data.results[i].vote_average?.toString().substring(0, 3);
                 let contentId = data.results[i].id;
                 let mediaType = data.results[i].media_type;
-
                 
                 var genretags = "";
 
-                for (let j = 0; j < genreKey.length; j++) {
+                for (let j = 0; j < genreKey?.length; j++) {
                     genretags += `${genres[genreKey[j]]} ${j !== (genreKey.length - 1) ? '/' : ''} `;
                 }
 
@@ -116,7 +128,7 @@ export async function Create(pageurl, parentDiv, page) {
                     <li class="cont_boxes">
                     <strong class="rating ${ratingBg}">${rating}</strong>  
                     <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/${poster}" class="poster" alt="Poster">
-                    <div class="mainTitle"><strong>${title}</strong><span>${releDate.substring(0, 4) ? `(${releDate.substring(0, 4)})` : ''}</span></div>
+                    <div class="mainTitle"><strong>${title}</strong><span>${releDate?.substring(0, 4) ? `(${releDate?.substring(0, 4)})` : ''}</span></div>
                     <h3 class="genre">${genretags}</h3>
                     <div class="hiddenInfo">
                         <p class="mediaType">${mediaType}</p> 
@@ -152,6 +164,10 @@ layoutRender(`https://api.themoviedb.org/3/trending/all/day?api_key=e6e82b1d384c
     .then(detailpopup);
 
 
+export function popupClose(){
+    popup_Warp.classList.add("hide");
+    popup_Warp.innerHTML = "";
+    document.querySelector('body').style.overflowY = "auto";
+}
 
 
-//  Search_Api = https://api.themoviedb.org/3/search/multi?api_key=e6e82b1d384c0712afd3d57364994f60&query=doctor-who&include_adult=false&language=en-US&page=1
