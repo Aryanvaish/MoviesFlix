@@ -1,5 +1,10 @@
 import { contentDetail } from './components/detailpopup.js';
 
+
+export const ApiKey = "e6e82b1d384c0712afd3d57364994f60";
+export const baseUrl = "https://api.themoviedb.org";
+export const apiVersion = "3"; 
+
 window.addEventListener("scroll", function () {
     const navbar = document.querySelector("#navBar");
     if (window.scrollY > 40) {

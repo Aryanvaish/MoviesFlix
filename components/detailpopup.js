@@ -47,6 +47,7 @@ export function detailpopup() {
 
             const closeForm = document.querySelector('.closeForm');
                 closeForm.addEventListener("click", function () {
+                    history.back({}, null, ''); 
                     popupClose();
             })
 
@@ -64,7 +65,7 @@ export function detailpopup() {
             }
 
 
-            fetch(`https://api.themoviedb.org/3/${currMedia}/${this.querySelector('.hiddenInfo .contentId').textContent}/videos?api_key=e6e82b1d384c0712afd3d57364994f60`)
+            fetch(`${baseUrl}/${apiVersion}/${currMedia}/${this.querySelector('.hiddenInfo .contentId').textContent}/videos?api_key=${ApiKey}`)
             .then((response) => response.json())
             .then((trailerData) => {
                 for (let i = 0; i < trailerData.results.length; i++) {

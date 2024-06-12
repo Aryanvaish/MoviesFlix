@@ -1,5 +1,9 @@
 import { layoutRender } from "../script.js";
 
+import { ApiKey } from "../script.js"
+import { baseUrl } from "../script.js";
+import { apiVersion } from "../script.js";
+
 export function Search() {
 
     const advFilters = document.querySelector('.advFilters');
@@ -16,7 +20,7 @@ export function Search() {
             invalidText.style.display = "flex";
         } else{
             invalidText.style.display = "none";
-            searchApi = `https://api.themoviedb.org/3/search/${selectCategory}?api_key=e6e82b1d384c0712afd3d57364994f60&query=${SearchInputValue}`;
+            searchApi = `${baseUrl}/${apiVersion}/search/${selectCategory}?api_key=${ApiKey}&query=${SearchInputValue}`;
             document.querySelector('#mainWrap').style.display = "none";
 
             layoutRender(`${searchApi}`, "searchResult", "Search Result");
