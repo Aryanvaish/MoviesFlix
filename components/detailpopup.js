@@ -1,12 +1,17 @@
 import { popupClose } from "../script.js"
 
+import { ApiKey } from "../script.js";
+import { baseUrl } from "../script.js";
+import { apiVersion } from "../script.js";
+
 const popup_Warp = document.getElementById('popup_Warp');
 
 export function detailpopup() {
     const content_Boxes = document.querySelectorAll('.cont_boxes');
     for (let i = 0; i < content_Boxes.length; i++) {
 
-        content_Boxes[i].addEventListener("click", function () {
+        content_Boxes[i].addEventListener("click", function (e) {
+        e.preventDefault(); 
 
             popup_Warp.innerHTML = `
             <div class="mainPop">
@@ -34,11 +39,29 @@ export function detailpopup() {
             document.querySelector('.mainPop p.overview_context').innerHTML = this.querySelector('.hiddenInfo > .overview').textContent;
             document.querySelector('.mainPop h3.rating').innerHTML = `Rating : ${this.querySelector('.hiddenInfo .voteRating').textContent}`;
 
+
+            const activeSlug = this.querySelector('.mainTitle > strong').textContent.replace(/\s+/g, "-").toLowerCase();
+            const activeId = this.querySelector('.hiddenInfo .contentId').textContent;
+            history.pushState({}, null, `?${activeId}&query=${activeSlug}`); 
+
+
+
+
+            const slugQuery = window.location.href.split('=')[1].split('&')[0];
+            const slugId = window.location.href.split('?')[1].split('&')[0];
+
+            if(slugQuery == "undefined" && slugId == "undefined"){
+                console.log("No Result Found");
+            }else{
+                console.log(slugQuery, slugId);
+            }
+
+
             const closeForm = document.querySelector('.closeForm');
                 closeForm.addEventListener("click", function () {
+                    history.back({}, null, ''); 
                     popupClose();
             })
-
 
 
             const media = this.parentElement.parentElement.getAttribute("data-media-type");
@@ -54,7 +77,7 @@ export function detailpopup() {
             }
 
 
-            fetch(`https://api.themoviedb.org/3/${currMedia}/${this.querySelector('.hiddenInfo .contentId').textContent}/videos?api_key=e6e82b1d384c0712afd3d57364994f60`)
+            fetch(`${baseUrl}/${apiVersion}/${currMedia}/${this.querySelector('.hiddenInfo .contentId').textContent}/videos?api_key=${ApiKey}`)
             .then((response) => response.json())
             .then((trailerData) => {
                 for (let i = 0; i < trailerData.results.length; i++) {
@@ -93,7 +116,6 @@ export function detailpopup() {
                 document.querySelector('.mainPop img.adultContext').title = '18+ Content ☠️';
                 document.querySelector('.mainPop img.adultContext').classList.add('RatedPlus');
             }
-
 
             document.querySelector('body').style.overflowY = "hidden";
             popup_Warp.classList.remove('hide');

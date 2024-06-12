@@ -1,5 +1,10 @@
 import { detailpopup } from "./components/detailpopup.js";
 
+
+export const ApiKey = "e6e82b1d384c0712afd3d57364994f60";
+export const baseUrl = "https://api.themoviedb.org";
+export const apiVersion = "3"; 
+
 window.addEventListener("scroll", function () {
     const navbar = document.querySelector("#navBar");
     if (window.scrollY > 40) {
@@ -21,8 +26,8 @@ function fetchGenreData(URL) {
         });
 }
 
-fetchGenreData("https://api.themoviedb.org/3/genre/movie/list?api_key=e6e82b1d384c0712afd3d57364994f60");
-fetchGenreData("https://api.themoviedb.org/3/genre/tv/list?api_key=e6e82b1d384c0712afd3d57364994f60");
+fetchGenreData(`${baseUrl}/${apiVersion}/genre/movie/list?api_key=${ApiKey}`);
+fetchGenreData(`${baseUrl}/${apiVersion}/genre/tv/list?api_key=${ApiKey}`);
 
 
 export async function layoutRender(API_URL, parentDiv, secTitle) {
@@ -66,7 +71,6 @@ export async function layoutRender(API_URL, parentDiv, secTitle) {
         await UrlCreate(API_URL, parentDiv, currPage.textContent);
         detailpopup();
     });
-
 
 }
 
@@ -156,11 +160,11 @@ export async function UrlCreate(pageurl, parentDiv, page) {
 
 }
 
-layoutRender(`https://api.themoviedb.org/3/trending/all/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trending", "Trending")
-    .then(() => layoutRender(`https://api.themoviedb.org/3/trending/movie/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingMovie", "Trending Movie"))
-    .then(() => layoutRender(`https://api.themoviedb.org/3/trending/tv/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingTv", "Trending Series"))
-    .then(() => layoutRender(`https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedMovies", "Top Listed Movies"))
-    .then(() => layoutRender(`https://api.themoviedb.org/3/tv/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedSeries", "Top Listed Series"))
+layoutRender(`${baseUrl}/${apiVersion}/trending/all/day?api_key=${ApiKey}`, "trending", "Trending")
+    .then(() => layoutRender(`${baseUrl}/${apiVersion}/trending/movie/day?api_key=${ApiKey}`, "trendingMovie", "Trending Movie"))
+    .then(() => layoutRender(`${baseUrl}/${apiVersion}/trending/tv/day?api_key=${ApiKey}`, "trendingTv", "Trending Series"))
+    .then(() => layoutRender(`${baseUrl}/${apiVersion}/movie/top_rated?api_key=${ApiKey}`, "toplistedMovies", "Top Listed Movies"))
+    .then(() => layoutRender(`${baseUrl}/${apiVersion}/tv/top_rated?api_key=${ApiKey}`, "toplistedSeries", "Top Listed Series"))
     .then(detailpopup);
 
 
