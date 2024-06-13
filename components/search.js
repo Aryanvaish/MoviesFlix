@@ -1,4 +1,5 @@
 import { layoutRender } from "../script.js";
+import { detailpopup } from "./detailpopup.js";	
 
 import { ApiKey } from "../script.js"
 import { baseUrl } from "../script.js";
@@ -24,9 +25,12 @@ export function Search() {
             document.querySelector('#mainWrap').style.display = "none";
 
             layoutRender(`${searchApi}`, "searchResult", "Search Result");
+            setTimeout(() => { detailpopup(); }, 100);
         }
 
     });
+
+
 
 
 } Search();

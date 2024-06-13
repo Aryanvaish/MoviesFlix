@@ -1,5 +1,8 @@
 import { popupClose } from "../script.js"
 
+import { ApiKey } from "../script.js";
+import { baseUrl } from "../script.js";
+import { apiVersion } from "../script.js";
 
 const popup_Warp = document.getElementById('popup_Warp');
 
@@ -43,6 +46,15 @@ export function detailpopup() {
 
 
 
+
+            const slugQuery = window.location.href.split('=')[1].split('&')[0];
+            const slugId = window.location.href.split('?')[1].split('&')[0];
+
+            if(slugQuery == "undefined" && slugId == "undefined"){
+                console.log("No Result Found");
+            }else{
+                console.log(slugQuery, slugId);
+            }
 
 
             const closeForm = document.querySelector('.closeForm');

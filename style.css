@@ -461,6 +461,20 @@ section#popup_Warp {
     filter: brightness(0.7);
 }
 
+img.closeForm {
+    cursor: pointer;
+    position: absolute;
+    height: 35px;
+    width: 35px;
+    right: 15px;
+    top: 14px;
+    transition: all 100ms ease;
+}
+
+img.closeForm:hover {
+    scale: 1.1;
+}
+
 .movieContent *{
     color: var(--white);
 }

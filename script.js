@@ -1,4 +1,4 @@
-import { contentDetail } from './components/detailpopup.js';
+import { detailpopup } from "./components/detailpopup.js";
 
 
 export const ApiKey = "e6e82b1d384c0712afd3d57364994f60";
@@ -26,8 +26,8 @@ function fetchGenreData(URL) {
         });
 }
 
-fetchGenreData(`https://api.themoviedb.org/3/genre/movie/list?api_key=e6e82b1d384c0712afd3d57364994f60`);
-fetchGenreData(`https://api.themoviedb.org/3/genre/tv/list?api_key=e6e82b1d384c0712afd3d57364994f60`);
+fetchGenreData(`${baseUrl}/${apiVersion}/genre/movie/list?api_key=${ApiKey}`);
+fetchGenreData(`${baseUrl}/${apiVersion}/genre/tv/list?api_key=${ApiKey}`);
 
 
 export async function layoutRender(API_URL, parentDiv, secTitle) {
@@ -46,7 +46,7 @@ export async function layoutRender(API_URL, parentDiv, secTitle) {
 
     await UrlCreate(API_URL, parentDiv, 1);
 
-    const totalPages = document.querySelector(`.${parentDiv}`).getAttribute('data-total-pages');
+    const totalPages = document.querySelector(`.${parentDiv}`).getAttribute('data-total-pages'); 
     const listWrap = document.querySelector(`.${parentDiv} ul`);
     const currPage = document.querySelector(`.curr-${parentDiv}`);
     const prevPage = document.querySelector(`.prev-${parentDiv}`);
@@ -59,6 +59,7 @@ export async function layoutRender(API_URL, parentDiv, secTitle) {
         listWrap.innerHTML = "";
         currPage.textContent--;
         await UrlCreate(API_URL, parentDiv, currPage.textContent);
+        detailpopup();
     });
 
     nextPage.addEventListener("click", async function () {
@@ -68,6 +69,7 @@ export async function layoutRender(API_URL, parentDiv, secTitle) {
         listWrap.innerHTML = "";
         currPage.textContent++;
         await UrlCreate(API_URL, parentDiv, currPage.textContent);
+        detailpopup();
     });
 
 }
@@ -79,8 +81,8 @@ export async function UrlCreate(pageurl, parentDiv, page) {
         .then((data) => {
 
 
-            if (data.results?.length === 0) {
-                document.querySelector('.searchResult ul').innerHTML = `<div class="notFound">Not Found, Please Try Agian !!!</div>`
+            if(data.results?.length === 0){
+               document.querySelector('.searchResult ul').innerHTML = `<div class="notFound">Not Found, Please Try Agian !!!</div>`
             }
 
             // Total Pages of URLS  
@@ -96,13 +98,14 @@ export async function UrlCreate(pageurl, parentDiv, page) {
                 let poster = data.results[i].poster_path;
                 let title = data.results[i].title || data.results[i].name || 'Title Not Found';
                 let genreKey = data.results[i].genre_ids;
+                let adultScheme = data.results[i].adult;
+                let overview = data.results[i].overview;
                 let releDate = data.results[i].release_date || data.results[i].first_air_date;
                 let voteRating = data.results[i].vote_average?.toString().substring(0, 3);
                 let rating = data.results[i].vote_average?.toString().substring(0, 3);
                 let contentId = data.results[i].id;
-
-                // console.log(data);
-
+                let mediaType = data.results[i].media_type;
+                
                 var genretags = "";
 
                 for (let j = 0; j < genreKey?.length; j++) {
@@ -129,8 +132,16 @@ export async function UrlCreate(pageurl, parentDiv, page) {
                     <li class="cont_boxes">
                     <strong class="rating ${ratingBg}">${rating}</strong>  
                     <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/${poster}" class="poster" alt="Poster">
-                    <div class="mainTitle" data-content-id="${contentId}"><strong>${title}</strong><span>${releDate?.substring(0, 4) ? `(${releDate?.substring(0, 4)})` : ''}</span></div>
+                    <div class="mainTitle"><strong>${title}</strong><span>${releDate?.substring(0, 4) ? `(${releDate?.substring(0, 4)})` : ''}</span></div>
                     <h3 class="genre">${genretags}</h3>
+                    <div class="hiddenInfo">
+                        <p class="mediaType">${mediaType}</p> 
+                        <p class="adultScheme">${adultScheme}</p>
+                        <strong class="overview">${overview}</strong>  
+                        <h3 class="releDate">${releDate}</h3>
+                        <p class="voteRating">${voteRating} / 10</p> 
+                        <span class="contentId">${contentId}</span>  
+                    </div>
                     </li>
                     `;
 
@@ -149,14 +160,18 @@ export async function UrlCreate(pageurl, parentDiv, page) {
 
 }
 
+layoutRender(`${baseUrl}/${apiVersion}/trending/all/day?api_key=${ApiKey}`, "trending", "Trending")
+    .then(() => layoutRender(`${baseUrl}/${apiVersion}/trending/movie/day?api_key=${ApiKey}`, "trendingMovie", "Trending Movie"))
+    .then(() => layoutRender(`${baseUrl}/${apiVersion}/trending/tv/day?api_key=${ApiKey}`, "trendingTv", "Trending Series"))
+    .then(() => layoutRender(`${baseUrl}/${apiVersion}/movie/top_rated?api_key=${ApiKey}`, "toplistedMovies", "Top Listed Movies"))
+    .then(() => layoutRender(`${baseUrl}/${apiVersion}/tv/top_rated?api_key=${ApiKey}`, "toplistedSeries", "Top Listed Series"))
+    .then(detailpopup);
 
 
-layoutRender(`https://api.themoviedb.org/3/trending/all/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trending", "Trending")
-    .then(() => layoutRender(`https://api.themoviedb.org/3/trending/movie/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingMovie", "Trending Movie"))
-    .then(() => layoutRender(`https://api.themoviedb.org/3/trending/tv/day?api_key=e6e82b1d384c0712afd3d57364994f60`, "trendingTv", "Trending Series"))
-    .then(() => layoutRender(`https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedMovies", "Top Listed Movies"))
-    .then(() => layoutRender(`https://api.themoviedb.org/3/tv/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60`, "toplistedSeries", "Top Listed Series"))
-    .then(() => contentDetail());
-
+export function popupClose(){
+    popup_Warp.classList.add("hide");
+    popup_Warp.innerHTML = "";
+    document.querySelector('body').style.overflowY = "auto";
+}
 
 
