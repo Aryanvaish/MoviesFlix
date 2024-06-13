@@ -47,19 +47,9 @@ export function detailpopup() {
 
 
 
-            const slugQuery = window.location.href.split('=')[1].split('&')[0];
-            const slugId = window.location.href.split('?')[1].split('&')[0];
-
-            if(slugQuery == "undefined" && slugId == "undefined"){
-                console.log("No Result Found");
-            }else{
-                console.log(slugQuery, slugId);
-            }
-
 
             const closeForm = document.querySelector('.closeForm');
                 closeForm.addEventListener("click", function () {
-                    history.back({}, null, ''); 
                     popupClose();
             })
 
