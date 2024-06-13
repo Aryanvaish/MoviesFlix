@@ -1,4 +1,4 @@
-import { contentDetail } from './components/detailPage.js';
+import { contentDetail } from './components/detailpopup.js';
 
 window.addEventListener("scroll", function () {
     const navbar = document.querySelector("#navBar");

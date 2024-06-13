@@ -1,8 +1,5 @@
 import { popupClose } from "../script.js"
 
-import { ApiKey } from "../script.js";
-import { baseUrl } from "../script.js";
-import { apiVersion } from "../script.js";
 
 const popup_Warp = document.getElementById('popup_Warp');
 
@@ -67,7 +64,7 @@ export function detailpopup() {
             }
 
 
-            fetch(`${baseUrl}/${apiVersion}/${currMedia}/${this.querySelector('.hiddenInfo .contentId').textContent}/videos?api_key=${ApiKey}`)
+            fetch(`https://api.themoviedb.org/3/${currMedia}/${this.querySelector('.hiddenInfo .contentId').textContent}/videos?api_key=e6e82b1d384c0712afd3d57364994f60`)
             .then((response) => response.json())
             .then((trailerData) => {
                 for (let i = 0; i < trailerData.results.length; i++) {
