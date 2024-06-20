@@ -1,9 +1,9 @@
 import { detailpopup } from "./components/detailpopup.js";
 
+import { ApiKey } from "./info.js";
+import { baseUrl } from "./info.js";
+import { apiVersion } from "./info.js";
 
-export const ApiKey = "e6e82b1d384c0712afd3d57364994f60";
-export const baseUrl = "https://api.themoviedb.org";
-export const apiVersion = "3"; 
 
 window.addEventListener("scroll", function () {
     const navbar = document.querySelector("#navBar");
@@ -59,7 +59,7 @@ export async function layoutRender(API_URL, parentDiv, secTitle) {
         listWrap.innerHTML = "";
         currPage.textContent--;
         await UrlCreate(API_URL, parentDiv, currPage.textContent);
-        detailpopup();
+        await detailpopup()
     });
 
     nextPage.addEventListener("click", async function () {
@@ -69,7 +69,7 @@ export async function layoutRender(API_URL, parentDiv, secTitle) {
         listWrap.innerHTML = "";
         currPage.textContent++;
         await UrlCreate(API_URL, parentDiv, currPage.textContent);
-        detailpopup();
+        await detailpopup()
     });
 
 }
@@ -109,7 +109,8 @@ export async function UrlCreate(pageurl, parentDiv, page) {
                 var genretags = "";
 
                 for (let j = 0; j < genreKey?.length; j++) {
-                    genretags += `${genres[genreKey[j]]} ${j !== (genreKey.length - 1) ? '/' : ''} `;
+                    if(genres[genreKey[j]] == undefined){return false;}
+                    genretags += `${genres[genreKey[j]]} ${j !== (genreKey.length - 1) ? ',' : ''} `;
                 }
 
                 // console.log(genretags);

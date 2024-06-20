@@ -1,13 +1,11 @@
 import { layoutRender } from "../script.js";
 import { detailpopup } from "./detailpopup.js";	
 
-import { ApiKey } from "../script.js"
-import { baseUrl } from "../script.js";
-import { apiVersion } from "../script.js";
+import { ApiKey } from "../info.js";
+import { baseUrl } from "../info.js";
+import { apiVersion } from "../info.js";
 
 export function Search() {
-
-    const advFilters = document.querySelector('.advFilters');
 
     document.querySelector('.filterbtn').addEventListener('click', () => {
         const SearchInputValue = document.querySelector('.popSearchInp').value.replace(/\s+/g, "-").toLowerCase();
@@ -23,9 +21,17 @@ export function Search() {
             invalidText.style.display = "none";
             searchApi = `${baseUrl}/${apiVersion}/search/${selectCategory}?api_key=${ApiKey}&query=${SearchInputValue}`;
             document.querySelector('#mainWrap').style.display = "none";
+            document.querySelector('#searchResult').style.display = 'block';
+
 
             layoutRender(`${searchApi}`, "searchResult", "Search Result");
-            setTimeout(() => { detailpopup(); }, 100);
+             setTimeout(() => {
+                detailpopup();
+            }, 500);
+
+            // const SearchedPage = document.querySelector('.breadcrumb .activePage');
+            // SearchedPage.innerHTML = SearchInputValue;
+            document.querySelector('#photoGallery').innerHTML = "";
         }
 
     });

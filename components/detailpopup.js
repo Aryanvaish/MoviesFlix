@@ -1,19 +1,24 @@
 import { popupClose } from "../script.js"
+import { ApiKey } from "../info.js";
+import { baseUrl } from "../info.js";
+import { apiVersion } from "../info.js";
 
-import { ApiKey } from "../script.js";
-import { baseUrl } from "../script.js";
-import { apiVersion } from "../script.js";
+import { photoGallery } from "../components/photogallery.js";
+import { galleryContent } from "../components/photogallery.js";
+
+import { videoGallery } from "../components/videogallery.js";
 
 const popup_Warp = document.getElementById('popup_Warp');
+const mainWrap = document.querySelector('#mainWrap');
 
-export function detailpopup() {
+export async function detailpopup() {
     const content_Boxes = document.querySelectorAll('.cont_boxes');
     for (let i = 0; i < content_Boxes.length; i++) {
 
         content_Boxes[i].addEventListener("click", function (e) {
-        e.preventDefault(); 
+            
 
-            popup_Warp.innerHTML = `
+            mainWrap.innerHTML = `
             <div class="mainPop">
                 <a href="javascript:void(0)" class="videoLink" data-yt-key="">
                     <img src="" class="popImg" alt="Movie Img">
@@ -28,7 +33,6 @@ export function detailpopup() {
                 <p class="overview_context"></p>
                 <h3 class="rating"></h3>
                 </div>
-                <img src="images/searchClose.png" alt="crossIcon" class="closeForm">
             </div>`;
 
 
@@ -42,66 +46,61 @@ export function detailpopup() {
 
             const activeSlug = this.querySelector('.mainTitle > strong').textContent.replace(/\s+/g, "-").toLowerCase();
             const activeId = this.querySelector('.hiddenInfo .contentId').textContent;
-            history.pushState({}, null, `?${activeId}&query=${activeSlug}`); 
+            history.pushState({}, null, `?${activeId}&${activeSlug}`);
 
-
-
-
-            const slugQuery = window.location.href.split('=')[1].split('&')[0];
+            const slugQuery = window.location.href.split('&')[1];
             const slugId = window.location.href.split('?')[1].split('&')[0];
 
-            if(slugQuery == "undefined" && slugId == "undefined"){
+
+
+            if (slugQuery == "undefined" && slugId == "undefined") {
                 console.log("No Result Found");
-            }else{
-                console.log(slugQuery, slugId);
+            } else {
+                const activePage = document.createElement('a');
+                activePage.classList.add('activePage');
+                activePage.textContent = this.querySelector('.mainTitle > strong').textContent;
+                document.querySelector('.breadcrumb').append("> ");
+                document.querySelector('.breadcrumb').append(activePage);
             }
-
-
-            const closeForm = document.querySelector('.closeForm');
-                closeForm.addEventListener("click", function () {
-                    history.back({}, null, ''); 
-                    popupClose();
-            })
 
 
             const media = this.parentElement.parentElement.getAttribute("data-media-type");
 
             let currMedia;
 
-            if(media == "tv"){
+            if (media == "tv") {
                 currMedia = "tv";
-            }else if(media == "movie"){
+            } else if (media == "movie") {
                 currMedia = "movie";
-            }else if(media == "multi"){
+            } else if (media == "multi") {
                 currMedia = this.querySelector('.hiddenInfo > p.mediaType').textContent;
             }
 
 
             fetch(`${baseUrl}/${apiVersion}/${currMedia}/${this.querySelector('.hiddenInfo .contentId').textContent}/videos?api_key=${ApiKey}`)
-            .then((response) => response.json())
-            .then((trailerData) => {
-                for (let i = 0; i < trailerData.results.length; i++) {
-                    if(trailerData.results[i].type == "Trailer"){
-                        document.querySelector('.mainPop .videoLink').setAttribute("data-yt-key", trailerData.results[i].key);
+                .then((response) => response.json())
+                .then((trailerData) => {
+                    for (let i = 0; i < trailerData.results.length; i++) {
+                        if (trailerData.results[i].type == "Trailer") {
+                            document.querySelector('.mainPop .videoLink').setAttribute("data-yt-key", trailerData.results[i].key);
+                        }
                     }
-                }
-            });
+                });
 
+                document.querySelector('.mainPop > a.videoLink').addEventListener('click', function () {
+                const ytKey = document.querySelector('.mainPop .videoLink').getAttribute("data-yt-key");
 
-            document.querySelector('.mainPop > a.videoLink').addEventListener('click', function(){
+                popup_Warp.innerHTML = `
+                    <div class="ytFrameBody">
+                        <iframe src="https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1" allow="autoplay" frameborder="0" allowfullscreen width="100%" height="100%" class="ytframe"></iframe>
+                        <img src="images/searchClose.png" alt="CloseIcon" class="playerClose">
+                    </div>  
+                `;
 
-            const ytKey = document.querySelector('.mainPop .videoLink').getAttribute("data-yt-key");
-
-             popup_Warp.innerHTML = `
-             <div class="ytFrameBody">
-                  <iframe src="https://www.youtube.com/embed/${ytKey}?autoplay=1&mute=1" allow="autoplay" frameborder="0" allowfullscreen width="100%" height="100%" class="ytframe"></iframe>
-                  <img src="images/searchClose.png" alt="CloseIcon" class="playerClose">
-             </div>  
-             `; 
-
-             document.querySelector('.playerClose').addEventListener('click', () => {
-                popupClose();
-            });
+                popup_Warp.classList.remove('hide');
+                document.querySelector('.playerClose').addEventListener('click', () => {
+                    popupClose();
+                });
 
             });
 
@@ -117,11 +116,22 @@ export function detailpopup() {
                 document.querySelector('.mainPop img.adultContext').classList.add('RatedPlus');
             }
 
-            document.querySelector('body').style.overflowY = "hidden";
-            popup_Warp.classList.remove('hide');
+            // PhotoGallery Section --------------
+
+            const contentId = this.querySelector('.hiddenInfo .contentId').textContent;
+            photoGallery(currMedia, contentId);
+            galleryContent();
+
+            // Video Gallery Section -------------
+
+            videoGallery();
+       
+            document.querySelector('#searchResult').style.display = 'none';
+            mainWrap.style.display = 'block';
         })
     }
 }
+
 
 
 if (popup_Warp.classList.contains('hide')) {
