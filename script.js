@@ -133,7 +133,7 @@ export async function UrlCreate(pageurl, parentDiv, page) {
                     <li class="cont_boxes">
                     <strong class="rating ${ratingBg}">${rating}</strong>  
                     <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/${poster}" class="poster" alt="Poster">
-                    <div class="mainTitle"><strong>${title}</strong><span>${releDate?.substring(0, 4) ? `(${releDate?.substring(0, 4)})` : ''}</span></div>
+                    <div class="mainTitle"><strong>${title} <span>${releDate?.substring(0, 4) ? `(${releDate?.substring(0, 4)})` : ''}</span></strong></div>
                     <h3 class="genre">${genretags}</h3>
                     <div class="hiddenInfo">
                         <p class="mediaType">${mediaType}</p> 
@@ -148,6 +148,9 @@ export async function UrlCreate(pageurl, parentDiv, page) {
 
             }
 
+            if(!listWrap.hasChildNodes()){
+                listWrap.innerHTML = `<strong class="nodata">Coming Soon !!!</strong>`;
+            }
 
             const moviePoster = document.querySelectorAll(".poster");
             for (let j = 0; j < moviePoster.length; j++) {

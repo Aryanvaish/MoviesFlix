@@ -16,7 +16,7 @@ document.querySelector('.breadcrumb .homePage').setAttribute('href', domain);
 // Top Rated Movies : https://api.themoviedb.org/3/movie/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60
 // Top Rated Series : https://api.themoviedb.org/3/tv/top_rated?api_key=e6e82b1d384c0712afd3d57364994f60
 
-// Yt Api id : https://api.themoviedb.org/3/contentId/videos?api_key=e6e82b1d384c0712afd3d57364994f60
+// Yt Api id : https://api.themoviedb.org/3/contentType/contentId/videos?api_key=e6e82b1d384c0712afd3d57364994f60
 
 // Search Movie Api : https://api.themoviedb.org/3/search/movie?api_key=e6e82b1d384c0712afd3d57364994f60&query=movie-name
 // Search Series Api : https://api.themoviedb.org/3/search/tv?api_key=e6e82b1d384c0712afd3d57364994f60&query=series-name

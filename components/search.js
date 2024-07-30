@@ -27,13 +27,12 @@ export function Search() {
             layoutRender(`${searchApi}`, "searchResult", "Search Result");
              setTimeout(() => {
                 detailpopup();
-            }, 500);
+            }, 1000);
 
-            // const SearchedPage = document.querySelector('.breadcrumb .activePage');
-            // SearchedPage.innerHTML = SearchInputValue;
             document.querySelector('#photoGallery').innerHTML = "";
+            document.querySelector('#videoGallery').innerHTML = "";
+            document.querySelector('#innerDetailpage').innerHTML = "";
         }
-
     });
 
 

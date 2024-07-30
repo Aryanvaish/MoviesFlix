@@ -104,10 +104,13 @@ svg {
 }
 
 #navBar {
+    height: max-content;
+    max-width: 100%;
     position: fixed;
     left: 0;
     right: 0;
     z-index: 100;
+    padding: 0px;
 }
 
 
@@ -118,7 +121,7 @@ svg {
     width: 100%;
     min-height: 70px;
     max-width: 1200px;
-    padding: 15px 40px;
+    padding: 25px 40px 15px;
     margin: auto;
     transition: all 300ms ease;
 }
@@ -138,9 +141,7 @@ svg {
     user-select: none;
 }
 
-#mainWrap,
-#searchResult,
-#photoGallery {
+body>section {
     width: 100%;
     max-width: 1200px;
     height: 100%;
@@ -152,7 +153,7 @@ section.advFilters {
     width: 100%;
     max-width: 1200px;
     height: 100%;
-    padding: 80px 40px 20px;
+    padding: 85px 40px 20px;
     margin: auto;
 }
 
@@ -196,8 +197,8 @@ section.advFilters {
     user-select: none;
 }
 
-#photoGallery .titlePage h2{
-    padding:  0 5px;
+#photoGallery .titlePage h2 {
+    padding: 0 5px;
 }
 
 .contWrap ul {
@@ -265,7 +266,6 @@ section.advFilters {
 }
 
 .contWrap ul li .mainTitle strong {
-    display: block;
     font-size: 16px;
     line-height: 23px;
     color: var(--white);
@@ -279,9 +279,11 @@ section.advFilters {
     overflow: hidden;
 }
 
-.contWrap ul li .mainTitle span {
+.contWrap ul li .mainTitle strong span {
     font-size: 12px;
     color: var(--white);
+    position: relative;
+    top: -1px;
 }
 
 .contWrap ul li h3 {
@@ -304,7 +306,7 @@ section.advFilters {
     align-items: flex-start;
     background-color: var(--navyblue);
     padding: 0;
-    margin: 0 auto 15px;
+    margin: 0 auto;
     gap: 50px;
 }
 
@@ -312,9 +314,11 @@ section#popup_Warp {
     position: fixed;
     z-index: 111;
     width: 100%;
+    max-width: 100%;
     height: 100%;
     bottom: 0;
-    background-color: rgb(0 0 0 / 80%);
+    padding: 0;
+    background-color: rgb(0 0 0 / 90%);
 }
 
 .advFilters {
@@ -350,7 +354,6 @@ section#popup_Warp {
 
 
 .advFilters .popSearchInp::placeholder {
-    /* color: #000; */
     color: #efefef;
 }
 
@@ -405,7 +408,6 @@ section#popup_Warp {
     outline: unset;
     padding: 11px 10px;
     border-radius: 5px;
-    /* background-color: var(--white); */
     color: #efefef;
     background: #213053;
     border: 2px solid #283a64;
@@ -427,6 +429,7 @@ section#popup_Warp {
     right: 20px;
     top: 20px;
     cursor: pointer;
+    z-index: 11;
 }
 
 .mainPop .videoLink {
@@ -538,11 +541,22 @@ h3.rating {
     font-weight: 700;
 }
 
+.novideo,
+.noimgs,
+.nodata {
+    display: block;
+    text-align: center;
+    margin: auto;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+}
+
 .breadcrumb {
     font-size: 14px;
     max-width: 1200px;
-    margin: 20px auto 15px;
-    padding: 0 40px;
+    margin: 10px auto 15px;
+    padding: 0;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -561,18 +575,14 @@ h3.rating {
     text-transform: capitalize;
 }
 
-section#photoGallery {
-    overflow-x: hidden;
-}
-
-
-section#photoGallery > div::-webkit-scrollbar{
+.galleryWrap::-webkit-scrollbar {
     background: #172441;
     height: 10px;
     border-radius: 30px;
+    scroll-behavior: smooth;
 }
 
-section#photoGallery > div::-webkit-scrollbar-thumb{
+.galleryWrap::-webkit-scrollbar-thumb {
     background: #273b66;
     border-radius: 100px;
     height: 10px;
@@ -581,14 +591,13 @@ section#photoGallery > div::-webkit-scrollbar-thumb{
 
 .galleryWrap {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 100%;
-    overflow-x: scroll;
+    overflow-x: auto;
     min-height: 180px;
-    margin-bottom: 30px;
 }
 
-.galleryWrap>img {
+.galleryWrap img {
     max-width: 25%;
     margin: 5px 5px 5px 0px;
     width: 100%;
@@ -599,41 +608,109 @@ section#photoGallery > div::-webkit-scrollbar-thumb{
     padding: 0;
     aspect-ratio: 16 / 9;
     object-fit: cover;
+    cursor: pointer;
 }
 
-.imgTabs {
+.galleryWrap>div {
+    position: relative;
+    max-width: 25%;
+}
+
+.galleryWrap>div:before {
+    content: "";
+    position: absolute;
+    background: url(./images/play.png) no-repeat;
+    background-size: contain;
+    width: 55px;
+    height: 40px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    filter: drop-shadow(2px 4px 6px black);
+    pointer-events: none;
+}
+
+.videoWrap img {
+    cursor: pointer;
+    object-fit: contain;
+}
+
+.imgTabs,
+.videoTabs {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 25px;
+    margin: 15px auto 25px;
     padding: 0 0px;
     font-size: 25px;
     font-weight: 700;
     color: #fff;
 }
 
-.imgTabs button {
+.imgTabs button,
+.videoTabs button {
     border: 2px solid #494444;
     background-color: transparent;
     font-size: 14px;
     color: #fff;
     font-weight: 600;
-    padding: 6px 30px;
+    padding: 6px 25px;
+    font-family: sans-serif;
     border-radius: 30px;
     cursor: pointer;
     transition: all 0.5s ease;
 }
 
-.imgTabs button:hover {
+.imgTabs button:hover,
+.videoTabs button:hover {
     background-color: #0d0b1b;
 }
 
-.imgTabs button.active {
+.imgTabs button.active,
+.videoTabs button.active {
     background-color: #fff;
     color: #0d0b1b;
     border-color: #fff;
     font-weight: 600;
 }
+
+img.fullSizegallery {
+    width: 100%;
+    max-width: 80%;
+    height: 100%;
+    margin: auto;
+    display: block;
+    object-fit: cover;
+    user-select: none;
+    background-color: #000;
+}
+
+img.arrows {
+    position: absolute;
+    z-index: 11;
+    width: 35px;
+    height: 35px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    cursor: pointer;
+    user-select: none;
+}
+
+img.left-item {
+    left: 22px;
+}
+
+img.right-item {
+    right: 22px;
+}
+
+section#videoGallery {
+    margin-bottom: 40px;
+}
+
 
 @media(max-width: 1200px) {
     .contWrap ul {
@@ -643,9 +720,28 @@ section#photoGallery > div::-webkit-scrollbar-thumb{
 }
 
 @media(max-width:800px) {
+    .galleryWrap::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    #navBar {
+        position: relative;
+    }
+
     .breadcrumb {
-        padding: 0 20px;
+        padding: 5px 0;
         margin-bottom: 5px;
+        margin-top: 0;
+        align-items: flex-start;
+    }
+
+    .breadcrumb a.activePage {
+        max-width: 200px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     svg {
@@ -653,12 +749,12 @@ section#photoGallery > div::-webkit-scrollbar-thumb{
     }
 
     .nav_Container {
-        padding: 15px 20px 15px 20px;
+        padding: 20px;
         min-height: 50px;
     }
 
     .nav_Container>a {
-        font-size: 20px;
+        font-size: 26px;
     }
 
     .titlePage h2 {
@@ -666,11 +762,11 @@ section#photoGallery > div::-webkit-scrollbar-thumb{
     }
 
     #mainWrap {
-        padding: 20px 15px 0;
+        padding: 20px 20px 0;
     }
 
     section.advFilters {
-        padding: 65px 20px 10px;
+        padding: 0px 20px 10px;
     }
 
     .titlePage {
@@ -688,6 +784,10 @@ section#photoGallery > div::-webkit-scrollbar-thumb{
         cursor: unset;
         min-height: 340px;
         max-height: 340px;
+    }
+
+    .contWrap ul li h3.genre {
+        display: none;
     }
 
     .pages strong {
@@ -718,10 +818,12 @@ section#photoGallery > div::-webkit-scrollbar-thumb{
     .title {
         align-items: flex-start;
         gap: 5px;
+        margin-bottom: 10px;
     }
 
     .title h2 {
-        font-size: 18px;
+        font-size: 20px;
+        line-height: 1.6em;
     }
 
     .title img.adultContext {
@@ -730,8 +832,8 @@ section#photoGallery > div::-webkit-scrollbar-thumb{
     }
 
     img.adultContext.underRated {
-        max-width: 20px;
-        margin-top: 5px;
+        max-width: 25px;
+        margin-top: -15px;
     }
 
     p.releaseDate {
@@ -786,22 +888,23 @@ section#photoGallery > div::-webkit-scrollbar-thumb{
 
     .advFilters .popSearchInp {
         width: 100%;
-        padding: 10px 15px;
+        padding: 8px 15px;
         font-size: 14px;
+        height: 35px;
     }
 
     .advFilters>select {
+        background-position-y: 4px;
         max-width: 60%;
-        padding: 10px 15px;
+        padding: 8px 15px;
     }
 
     .advFilters>button.filterbtn {
         width: 38%;
+        padding: 8px 10px;
     }
 
-    #mainWrap,
-    #searchResult,
-    #photoGallery {
+    body>section {
         padding: 20px 20px 0;
     }
 
@@ -811,24 +914,61 @@ section#photoGallery > div::-webkit-scrollbar-thumb{
     }
 
     .contWrap ul li img {
-        min-height: 180px;
-        max-height: 180px;
+        min-height: 240px;
+        max-height: 240px;
     }
 
-    .imgTabs {
+    .imgTabs,
+    .videoTabs {
         font-size: 17px;
         flex-wrap: wrap;
+        margin: 15px auto 15px;
+        gap: 5px;
     }
-    
-    .imgTabs strong {
+
+    .imgTabs strong,
+    .videoTabs strong {
+        font-size: 20px;
         display: block;
         width: 100%;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
-    
-    .imgTabs button {
+
+    .imgTabs button,
+    .videoTabs button {
         padding: 4px 15px;
         font-size: 13px;
+    }
+
+    .galleryWrap>div {
+        max-width: min-content;
+    }
+
+    img.arrows {
+        width: 25px;
+        height: 25px;
+    }
+
+    img.left-item {
+        left: 10px;
+    }
+
+    img.right-item {
+        right: 10px;
+    }
+
+    img.fullSizegallery {
+        max-width: 100%;
+        height: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    section#popup_Warp {
+        background-color: rgb(0 0 0 / 95%);
     }
 
 }

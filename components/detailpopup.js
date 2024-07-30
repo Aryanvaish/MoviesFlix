@@ -4,21 +4,22 @@ import { baseUrl } from "../info.js";
 import { apiVersion } from "../info.js";
 
 import { photoGallery } from "../components/photogallery.js";
-import { galleryContent } from "../components/photogallery.js";
+import { phtotgalleryContent } from "../components/photogallery.js";
 
 import { videoGallery } from "../components/videogallery.js";
+import { videogalleryContent } from "../components/videogallery.js";
 
 const popup_Warp = document.getElementById('popup_Warp');
 const mainWrap = document.querySelector('#mainWrap');
+const innerDetailpage = document.querySelector('#innerDetailpage');
 
 export async function detailpopup() {
     const content_Boxes = document.querySelectorAll('.cont_boxes');
     for (let i = 0; i < content_Boxes.length; i++) {
 
         content_Boxes[i].addEventListener("click", function (e) {
-            
 
-            mainWrap.innerHTML = `
+            innerDetailpage.innerHTML = `
             <div class="mainPop">
                 <a href="javascript:void(0)" class="videoLink" data-yt-key="">
                     <img src="" class="popImg" alt="Movie Img">
@@ -50,6 +51,7 @@ export async function detailpopup() {
 
             const slugQuery = window.location.href.split('&')[1];
             const slugId = window.location.href.split('?')[1].split('&')[0];
+
 
 
 
@@ -120,14 +122,18 @@ export async function detailpopup() {
 
             const contentId = this.querySelector('.hiddenInfo .contentId').textContent;
             photoGallery(currMedia, contentId);
-            galleryContent();
+            phtotgalleryContent();
 
             // Video Gallery Section -------------
 
-            videoGallery();
+            videoGallery(currMedia, contentId);
+            videogalleryContent();
+
+            // End -------------------------------
        
             document.querySelector('#searchResult').style.display = 'none';
-            mainWrap.style.display = 'block';
+            innerDetailpage.style.display = 'block';
+            mainWrap.style.display = 'none';
         })
     }
 }
