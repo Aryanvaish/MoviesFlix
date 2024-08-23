@@ -19,6 +19,10 @@ export async function detailpopup() {
 
         content_Boxes[i].addEventListener("click", function (e) {
 
+            document.querySelector('body').classList.remove('home-screen');
+            document.querySelector('body').classList.add('detail-screen');
+
+
             innerDetailpage.innerHTML = `
             <div class="mainPop">
                 <a href="javascript:void(0)" class="videoLink" data-yt-key="">
@@ -51,8 +55,6 @@ export async function detailpopup() {
 
             const slugQuery = window.location.href.split('&')[1];
             const slugId = window.location.href.split('?')[1].split('&')[0];
-
-
 
 
             if (slugQuery == "undefined" && slugId == "undefined") {
@@ -89,7 +91,7 @@ export async function detailpopup() {
                     }
                 });
 
-                document.querySelector('.mainPop > a.videoLink').addEventListener('click', function () {
+            document.querySelector('.mainPop > a.videoLink').addEventListener('click', function () {
                 const ytKey = document.querySelector('.mainPop .videoLink').getAttribute("data-yt-key");
 
                 popup_Warp.innerHTML = `
@@ -130,7 +132,7 @@ export async function detailpopup() {
             videogalleryContent();
 
             // End -------------------------------
-       
+
             document.querySelector('#searchResult').style.display = 'none';
             innerDetailpage.style.display = 'block';
             mainWrap.style.display = 'none';

@@ -707,10 +707,6 @@ img.right-item {
     right: 22px;
 }
 
-section#videoGallery {
-    margin-bottom: 40px;
-}
-
 
 @media(max-width: 1200px) {
     .contWrap ul {
@@ -763,6 +759,11 @@ section#videoGallery {
 
     #mainWrap {
         padding: 20px 20px 0;
+        margin-bottom: -100px;
+    }
+
+    section#videoGallery{
+        margin-bottom: 10px;
     }
 
     section.advFilters {
@@ -867,6 +868,11 @@ section#videoGallery {
         font-size: 14px;
     }
 
+    .contWrap ul li .mainTitle strong {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
     .mainPop .videoLink::after {
         width: 40px;
         height: 30px;
@@ -969,6 +975,10 @@ section#videoGallery {
 
     section#popup_Warp {
         background-color: rgb(0 0 0 / 95%);
+    }
+
+    .novideo, .noimgs, .nodata {
+        margin: 50px auto;
     }
 
 }

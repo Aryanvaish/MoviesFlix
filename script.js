@@ -46,7 +46,7 @@ export async function layoutRender(API_URL, parentDiv, secTitle) {
 
     await UrlCreate(API_URL, parentDiv, 1);
 
-    const totalPages = document.querySelector(`.${parentDiv}`).getAttribute('data-total-pages'); 
+    const totalPages = document.querySelector(`.${parentDiv}`).getAttribute('data-total-pages');
     const listWrap = document.querySelector(`.${parentDiv} ul`);
     const currPage = document.querySelector(`.curr-${parentDiv}`);
     const prevPage = document.querySelector(`.prev-${parentDiv}`);
@@ -81,8 +81,8 @@ export async function UrlCreate(pageurl, parentDiv, page) {
         .then((data) => {
 
 
-            if(data.results?.length === 0){
-               document.querySelector('.searchResult ul').innerHTML = `<div class="notFound">Not Found, Please Try Agian !!!</div>`
+            if (data.results?.length === 0) {
+                document.querySelector('.searchResult ul').innerHTML = `<div class="notFound">Not Found, Please Try Agian !!!</div>`
             }
 
             // Total Pages of URLS  
@@ -105,11 +105,11 @@ export async function UrlCreate(pageurl, parentDiv, page) {
                 let rating = data.results[i].vote_average?.toString().substring(0, 3);
                 let contentId = data.results[i].id;
                 let mediaType = data.results[i].media_type;
-                
+
                 var genretags = "";
 
                 for (let j = 0; j < genreKey?.length; j++) {
-                    if(genres[genreKey[j]] == undefined){return false;}
+                    if (genres[genreKey[j]] == undefined) { return false; }
                     genretags += `${genres[genreKey[j]]} ${j !== (genreKey.length - 1) ? ',' : ''} `;
                 }
 
@@ -148,31 +148,31 @@ export async function UrlCreate(pageurl, parentDiv, page) {
 
             }
 
-            if(!listWrap.hasChildNodes()){
+
+            if (!listWrap.hasChildNodes() || listWrap.innerHTML == "") {
                 listWrap.innerHTML = `<strong class="nodata">Coming Soon !!!</strong>`;
             }
 
             const moviePoster = document.querySelectorAll(".poster");
             for (let j = 0; j < moviePoster.length; j++) {
                 moviePoster[j].addEventListener("error", function () {
-                    moviePoster[j].setAttribute("src", "images/error.jpg");
+                    moviePoster[j].setAttribute("src", "images/error.webp");
                 });
             }
-
 
         })
 
 }
 
-layoutRender(`${baseUrl}/${apiVersion}/trending/all/day?api_key=${ApiKey}`, "trending", "Trending")
-    .then(() => layoutRender(`${baseUrl}/${apiVersion}/trending/movie/day?api_key=${ApiKey}`, "trendingMovie", "Trending Movie"))
-    .then(() => layoutRender(`${baseUrl}/${apiVersion}/trending/tv/day?api_key=${ApiKey}`, "trendingTv", "Trending Series"))
-    .then(() => layoutRender(`${baseUrl}/${apiVersion}/movie/top_rated?api_key=${ApiKey}`, "toplistedMovies", "Top Listed Movies"))
-    .then(() => layoutRender(`${baseUrl}/${apiVersion}/tv/top_rated?api_key=${ApiKey}`, "toplistedSeries", "Top Listed Series"))
-    .then(detailpopup);
+Promise.all([
+    layoutRender(`${baseUrl}/${apiVersion}/trending/all/day?api_key=${ApiKey}`, "trending", "Trending"),
+    layoutRender(`${baseUrl}/${apiVersion}/trending/movie/day?api_key=${ApiKey}`, "trendingMovie", "Trending Movie"),
+    layoutRender(`${baseUrl}/${apiVersion}/trending/tv/day?api_key=${ApiKey}`, "trendingTv", "Trending Series"),
+    layoutRender(`${baseUrl}/${apiVersion}/movie/top_rated?api_key=${ApiKey}`, "toplistedMovies", "Top Listed Movies"),
+    layoutRender(`${baseUrl}/${apiVersion}/tv/top_rated?api_key=${ApiKey}`, "toplistedSeries", "Top Listed Series"),
+]).then(() => {detailpopup()});
 
-
-export function popupClose(){
+export function popupClose() {
     popup_Warp.classList.add("hide");
     popup_Warp.innerHTML = "";
     document.querySelector('body').style.overflowY = "auto";
