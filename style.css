@@ -274,6 +274,7 @@ section.advFilters {
 
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -735,6 +736,7 @@ img.right-item {
         max-width: 200px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
+        line-clamp: 1;
         -webkit-line-clamp: 1;
         text-overflow: ellipsis;
         overflow: hidden;
@@ -781,7 +783,7 @@ img.right-item {
     }
 
     .contWrap ul li {
-        max-width: 48%;
+        max-width: 32%;
         cursor: unset;
         min-height: 340px;
         max-height: 340px;
@@ -981,4 +983,10 @@ img.right-item {
         margin: 50px auto;
     }
 
+}
+
+@media(max-width:520px) {
+    .contWrap ul li {
+        max-width: 48%;
+    }
 }
